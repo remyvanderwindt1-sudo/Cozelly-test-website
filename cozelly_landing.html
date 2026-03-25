@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cozella — Member Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream:        #F5EFE0;
+      --cream-dark:   #EDE4D0;
+      --cream-mid:    #E8DFC8;
+      --brown:        #3D1F1F;
+      --brown-mid:    #6B4040;
+      --brown-light:  #9A6A5A;
+      --pink:         #D96878;
+      --pink-light:   #F0A0AB;
+      --pink-pale:    #FAE8EB;
+      --gold:         #B8A660;
+      --gold-light:   #D4C080;
+      --gold-pale:    #F5F0DC;
+      --white:        #FFFFFF;
+      --muted:        #7A5A5A;
+      --muted-light:  #A08070;
+      --border:       rgba(61,31,31,0.10);
+      --border-light: rgba(61,31,31,0.06);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--brown);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       TOP NAV
+    ══════════════════════════════════════════════════════════ */
+    .topnav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(245,239,224,0.94);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      height: 66px;
+      display: flex; align-items: center;
+      padding: 0 1.5rem;
+      gap: 2rem;
+    }
+    .topnav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; flex-shrink: 0;
+    }
+    .topnav-logo img {
+      width: 40px; height: 40px; border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(61,31,31,0.18);
+    }
+    .topnav-logo-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--brown); letter-spacing: 0.02em;
+    }
+    .topnav-divider {
+      width: 1px; height: 28px; background: var(--border);
+      flex-shrink: 0;
+    }
+    .topnav-tabs {
+      display: flex; align-items: center; gap: 0.25rem;
+      list-style: none; flex: 1;
+    }
+    .topnav-tabs a {
+      text-decoration: none;
+      display: flex; align-items: center; gap: 7px;
+      padding: 0.45rem 0.85rem; border-radius: 8px;
+      font-size: 0.855rem; font-weight: 500;
+      color: var(--muted);
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .topnav-tabs a:hover { background: var(--cream-dark); color: var(--brown); }
+    .topnav-tabs a.active {
+      background: var(--brown); color: var(--cream);
+    }
+    .topnav-tabs .tab-icon { font-size: 0.85rem; }
+
+    .topnav-right {
+      display: flex; align-items: center; gap: 0.75rem;
+      flex-shrink: 0;
+    }
+    .topnav-search {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.42rem 0.85rem;
+      font-size: 0.82rem; color: var(--muted-light);
+      cursor: pointer; white-space: nowrap;
+      transition: border-color 0.15s;
+    }
+    .topnav-search:hover { border-color: var(--gold); }
+    .topnav-icon-btn {
+      width: 38px; height: 38px; border-radius: 9px;
+      background: var(--white); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      position: relative;
+    }
+    .topnav-icon-btn:hover { background: var(--cream-dark); border-color: var(--gold); }
+    .notif-dot {
+      position: absolute; top: 6px; right: 6px;
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--pink); border: 1.5px solid var(--cream);
+    }
+    .topnav-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink), var(--gold));
+      border: 2px solid var(--white);
+      box-shadow: 0 2px 8px rgba(61,31,31,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700; color: var(--white);
+      cursor: pointer; flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       LAYOUT
+    ══════════════════════════════════════════════════════════ */
+    .portal-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 0;
+      max-width: 1260px;
+      margin: 66px auto 0;
+      padding: 2rem 1.5rem;
+      gap: 2rem;
+      align-items: start;
+    }
+    .portal-main { min-width: 0; display: flex; flex-direction: column; gap: 2rem; }
+    .portal-sidebar { position: sticky; top: 86px; display: flex; flex-direction: column; gap: 1.5rem; }
+
+    /* ══════════════════════════════════════════════════════════
+       WELCOME BANNER
+    ══════════════════════════════════════════════════════════ */
+    .welcome-banner {
+      background: var(--brown);
+      border-radius: 18px;
+      padding: 2.2rem 2.4rem;
+      position: relative; overflow: hidden;
+    }
+    .welcome-banner::before {
+      content: '';
+      position: absolute; top: -80px; right: -60px;
+      width: 300px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(217,104,120,0.25), transparent 65%);
+    }
+    .welcome-banner::after {
+      content: '';
+      position: absolute; bottom: -60px; left: 180px;
+      width: 220px; height: 220px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,166,96,0.2), transparent 65%);
+    }
+    /* ── Full-page soft-orb background ────────────────────────────────────── */
+    #bgOrbs {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; overflow: hidden;
+    }
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px);
+      will-change: transform, opacity;
+    }
+    /* Pink orb — upper right */
+    .orb-1 {
+      width: 600px; height: 600px;
+      top: -120px; right: -80px;
+      background: radial-gradient(circle, rgba(217,104,120,0.22) 0%, transparent 70%);
+      animation: drift1 18s ease-in-out infinite;
+    }
+    /* Gold orb — lower left */
+    .orb-2 {
+      width: 520px; height: 520px;
+      bottom: 5%; left: -100px;
+      background: radial-gradient(circle, rgba(184,166,96,0.20) 0%, transparent 70%);
+      animation: drift2 22s ease-in-out infinite;
+    }
+    /* Soft brown orb — center-right, mid page */
+    .orb-3 {
+      width: 440px; height: 440px;
+      top: 38%; right: 8%;
+      background: radial-gradient(circle, rgba(107,64,64,0.10) 0%, transparent 70%);
+      animation: drift3 26s ease-in-out infinite;
+    }
+    /* Pink-light orb — lower right */
+    .orb-4 {
+      width: 380px; height: 380px;
+      bottom: 12%; right: -60px;
+      background: radial-gradient(circle, rgba(240,160,171,0.15) 0%, transparent 70%);
+      animation: drift1 20s ease-in-out infinite reverse;
+    }
+    /* Gold-light orb — upper left */
+    .orb-5 {
+      width: 340px; height: 340px;
+      top: 20%; left: -40px;
+      background: radial-gradient(circle, rgba(212,192,128,0.14) 0%, transparent 70%);
+      animation: drift2 24s ease-in-out infinite reverse;
+    }
+
+    @keyframes drift1 {
+      0%   { transform: translate(0,    0)    scale(1);    opacity: 0.85; }
+      33%  { transform: translate(40px, 30px) scale(1.06); opacity: 1;    }
+      66%  { transform: translate(-20px,50px) scale(0.97); opacity: 0.9;  }
+      100% { transform: translate(0,    0)    scale(1);    opacity: 0.85; }
+    }
+    @keyframes drift2 {
+      0%   { transform: translate(0,    0)     scale(1);    opacity: 0.80; }
+      40%  { transform: translate(-30px,-40px) scale(1.08); opacity: 1;    }
+      70%  { transform: translate(25px,  20px) scale(0.95); opacity: 0.85; }
+      100% { transform: translate(0,    0)     scale(1);    opacity: 0.80; }
+    }
+    @keyframes drift3 {
+      0%   { transform: translate(0,    0)    scale(1);    opacity: 0.70; }
+      50%  { transform: translate(30px,-35px) scale(1.05); opacity: 0.95; }
+      100% { transform: translate(0,    0)    scale(1);    opacity: 0.70; }
+    }
+
+    /* Everything else sits above the orbs */
+    .topnav, .portal-layout, footer { position: relative; z-index: 1; }
+
+    .welcome-inner { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+    .welcome-text {}
+    .welcome-greeting {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .welcome-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 2.5vw, 2.1rem); font-weight: 700;
+      color: var(--cream); line-height: 1.2;
+      margin-bottom: 0.7rem;
+    }
+    .welcome-name em { font-style: italic; color: var(--pink-light); }
+    .welcome-sub {
+      font-size: 0.875rem; color: rgba(245,239,224,0.65);
+      line-height: 1.6; max-width: 420px;
+    }
+    .welcome-stats {
+      display: flex; gap: 2rem;
+      margin-top: 1.8rem; padding-top: 1.5rem;
+      border-top: 1px solid rgba(245,239,224,0.12);
+    }
+    .ws-item {}
+    .ws-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem; font-weight: 700; color: var(--cream);
+      line-height: 1;
+    }
+    .ws-lbl {
+      font-size: 0.72rem; color: rgba(245,239,224,0.5);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-top: 0.3rem;
+    }
+    .welcome-cta-area { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 0.75rem; }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--brown);
+      font-family: inherit; font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      border: none; cursor: pointer;
+      padding: 0.65rem 1.4rem; border-radius: 8px;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .btn-outline-cream {
+      background: transparent;
+      color: rgba(245,239,224,0.75);
+      font-family: inherit; font-size: 0.82rem; font-weight: 500;
+      border: 1px solid rgba(245,239,224,0.2); cursor: pointer;
+      padding: 0.65rem 1.4rem; border-radius: 8px;
+      transition: border-color 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .btn-outline-cream:hover { border-color: rgba(245,239,224,0.5); color: var(--cream); }
+
+    /* ══════════════════════════════════════════════════════════
+       SECTION HEADERS
+    ══════════════════════════════════════════════════════════ */
+    .sec-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.1rem;
+    }
+    .sec-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; font-weight: 700;
+      color: var(--brown);
+    }
+    .sec-link {
+      font-size: 0.8rem; font-weight: 600; color: var(--pink);
+      text-decoration: none; letter-spacing: 0.02em;
+      transition: color 0.15s;
+    }
+    .sec-link:hover { color: var(--brown); }
+
+    /* ══════════════════════════════════════════════════════════
+       INSPIRATION FEED
+    ══════════════════════════════════════════════════════════ */
+    .feed-featured {
+      border-radius: 16px; overflow: hidden;
+      background: var(--white);
+      border: 1px solid var(--border-light);
+      box-shadow: 0 4px 20px rgba(61,31,31,0.06);
+    }
+    .feed-featured-image {
+      height: 240px;
+      background: linear-gradient(135deg, #c9a882 0%, #e8c9a0 40%, #d4956a 100%);
+      position: relative; overflow: hidden;
+    }
+    .feed-featured-image-inner {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    /* Decorative room illustration made with CSS */
+    .room-scene {
+      width: 100%; height: 100%;
+      position: relative;
+      background: linear-gradient(180deg, #f0e6d3 0%, #e8d5b8 60%, #d4be94 100%);
+    }
+    .room-wall { position: absolute; inset: 0; background: linear-gradient(180deg, #f5ede0 0%, #edddd0 100%); }
+    .room-floor { position: absolute; bottom: 0; left: 0; right: 0; height: 70px; background: linear-gradient(180deg, #c9a87a, #b8956a); }
+    .room-sofa {
+      position: absolute; bottom: 55px; left: 50%; transform: translateX(-50%);
+      width: 220px; height: 80px;
+      background: #D96878; border-radius: 12px 12px 0 0;
+    }
+    .room-sofa::before {
+      content: '';
+      position: absolute; bottom: 0; left: -10px; right: -10px; height: 20px;
+      background: #c45868; border-radius: 4px;
+    }
+    .room-sofa::after {
+      content: '';
+      position: absolute; top: 8px; left: 8px; right: 8px; height: 30px;
+      background: rgba(255,255,255,0.15); border-radius: 8px;
+    }
+    .room-cushion {
+      position: absolute; top: 12px;
+      width: 48px; height: 32px;
+      background: #f0a0ab; border-radius: 6px;
+    }
+    .room-cushion.c1 { left: 20px; }
+    .room-cushion.c2 { right: 20px; }
+    .room-plant {
+      position: absolute; bottom: 55px; right: 40px;
+      width: 28px; height: 60px;
+    }
+    .room-plant::before {
+      content: '';
+      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 18px; height: 28px;
+      background: #8B7355; border-radius: 3px;
+    }
+    .room-plant::after {
+      content: '';
+      position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+      width: 40px; height: 40px; border-radius: 50%;
+      background: #5a8a4a;
+      box-shadow: -12px -5px 0 #4a7a3a, 12px -5px 0 #6a9a5a;
+    }
+    .room-lamp {
+      position: absolute; bottom: 55px; left: 44px;
+    }
+    .room-lamp::before {
+      content: '';
+      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 6px; height: 50px; background: #b8956a;
+    }
+    .room-lamp::after {
+      content: '';
+      position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+      width: 30px; height: 20px;
+      background: #f5e0b0; border-radius: 50% 50% 0 0;
+      box-shadow: 0 0 20px rgba(245,224,176,0.5);
+    }
+    .room-art {
+      position: absolute; top: 30px; left: 50%; transform: translateX(-50%);
+      width: 70px; height: 55px;
+      background: #fff; border: 3px solid #d4be94;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+    }
+    .feed-featured-tag {
+      position: absolute; top: 14px; left: 14px;
+      background: var(--brown); color: var(--cream);
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.3rem 0.75rem; border-radius: 999px;
+    }
+    .feed-featured-body { padding: 1.5rem; }
+    .feed-author-row {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 0.85rem;
+    }
+    .author-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700; color: var(--white);
+      flex-shrink: 0;
+    }
+    .author-name { font-size: 0.82rem; font-weight: 600; color: var(--brown); }
+    .author-meta { font-size: 0.72rem; color: var(--muted-light); }
+    .feed-featured-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; font-weight: 700; color: var(--brown);
+      line-height: 1.35; margin-bottom: 0.6rem;
+    }
+    .feed-featured-excerpt {
+      font-size: 0.875rem; color: var(--muted); line-height: 1.65;
+      margin-bottom: 1.2rem;
+    }
+    .feed-actions {
+      display: flex; align-items: center; gap: 1rem;
+      padding-top: 1rem; border-top: 1px solid var(--border-light);
+    }
+    .feed-action {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 0.78rem; font-weight: 500; color: var(--muted-light);
+      cursor: pointer; transition: color 0.15s;
+      background: none; border: none; font-family: inherit;
+    }
+    .feed-action:hover { color: var(--pink); }
+    .feed-action.liked { color: var(--pink); }
+    .feed-read-more {
+      margin-left: auto;
+      font-size: 0.8rem; font-weight: 600; color: var(--brown);
+      text-decoration: none; letter-spacing: 0.02em;
+      display: flex; align-items: center; gap: 4px;
+      transition: gap 0.15s, color 0.15s;
+    }
+    .feed-read-more:hover { color: var(--pink); gap: 8px; }
+
+    /* Post cards grid */
+    .post-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+    .post-card {
+      background: var(--white);
+      border: 1px solid var(--border-light);
+      border-radius: 14px; overflow: hidden;
+      box-shadow: 0 2px 12px rgba(61,31,31,0.05);
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+    .post-card:hover { box-shadow: 0 8px 28px rgba(61,31,31,0.10); transform: translateY(-2px); }
+    .post-card-thumb {
+      height: 120px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem; position: relative;
+    }
+    .post-card-body { padding: 1rem; }
+    .post-card-tag {
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .post-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem; font-weight: 600; color: var(--brown);
+      line-height: 1.4; margin-bottom: 0.55rem;
+    }
+    .post-card-meta {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 0.7rem; color: var(--muted-light);
+    }
+    .post-card-meta span { display: flex; align-items: center; gap: 3px; }
+
+    /* ══════════════════════════════════════════════════════════
+       EVENTS
+    ══════════════════════════════════════════════════════════ */
+    .events-list { display: flex; flex-direction: column; gap: 0.9rem; }
+    .event-card {
+      background: var(--white);
+      border: 1px solid var(--border-light);
+      border-radius: 14px; padding: 1.2rem 1.4rem;
+      display: flex; gap: 1.2rem; align-items: flex-start;
+      box-shadow: 0 2px 10px rgba(61,31,31,0.04);
+      transition: box-shadow 0.2s, border-color 0.2s;
+      cursor: pointer;
+    }
+    .event-card:hover { box-shadow: 0 6px 22px rgba(61,31,31,0.09); border-color: var(--gold); }
+    .event-date {
+      flex-shrink: 0; width: 50px; text-align: center;
+      background: var(--cream); border-radius: 10px;
+      padding: 0.4rem 0.3rem;
+      border: 1px solid var(--border);
+    }
+    .event-date-month {
+      font-size: 0.6rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--pink);
+    }
+    .event-date-day {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 700; color: var(--brown);
+      line-height: 1;
+    }
+    .event-info { flex: 1; min-width: 0; }
+    .event-title {
+      font-size: 0.92rem; font-weight: 600; color: var(--brown);
+      margin-bottom: 0.3rem; line-height: 1.3;
+    }
+    .event-meta {
+      font-size: 0.75rem; color: var(--muted-light);
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+    }
+    .event-meta span { display: flex; align-items: center; gap: 3px; }
+    .event-badge {
+      font-size: 0.65rem; font-weight: 700;
+      padding: 0.18rem 0.55rem; border-radius: 999px;
+      white-space: nowrap; align-self: flex-start;
+      margin-top: 0.1rem;
+    }
+    .badge-online { background: var(--pink-pale); color: var(--pink); }
+    .badge-irl    { background: var(--gold-pale); color: #8a7030; }
+    .badge-full   { background: rgba(61,31,31,0.06); color: var(--muted); }
+    .event-rsvp {
+      flex-shrink: 0; align-self: center;
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--brown); background: var(--cream-dark);
+      border: 1px solid var(--border);
+      padding: 0.45rem 0.9rem; border-radius: 7px;
+      cursor: pointer; transition: background 0.15s, color 0.15s;
+      font-family: inherit; white-space: nowrap;
+    }
+    .event-rsvp:hover { background: var(--brown); color: var(--cream); }
+    .event-rsvp.going { background: var(--pink-pale); border-color: var(--pink); color: var(--pink); }
+
+    /* ══════════════════════════════════════════════════════════
+       SIDEBAR CARDS
+    ══════════════════════════════════════════════════════════ */
+    .sidebar-card {
+      background: var(--white);
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(61,31,31,0.05);
+      overflow: hidden;
+    }
+    .sidebar-card-header {
+      padding: 1rem 1.2rem 0.6rem;
+      border-bottom: 1px solid var(--border-light);
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-weight: 700; color: var(--brown);
+    }
+    .sidebar-card-body { padding: 1rem 1.2rem; }
+
+    /* Profile card */
+    .profile-card { text-align: center; padding: 1.4rem 1.2rem; }
+    .profile-avatar-wrap { position: relative; display: inline-block; margin-bottom: 0.9rem; }
+    .profile-avatar-img {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink), var(--gold));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; font-weight: 700; color: var(--white);
+      border: 3px solid var(--white);
+      box-shadow: 0 4px 16px rgba(61,31,31,0.15);
+      margin: 0 auto;
+    }
+    .profile-online-dot {
+      position: absolute; bottom: 3px; right: 3px;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: #4caf80; border: 2px solid var(--white);
+    }
+    .profile-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-weight: 700; color: var(--brown);
+      margin-bottom: 0.2rem;
+    }
+    .profile-handle { font-size: 0.78rem; color: var(--muted-light); margin-bottom: 0.9rem; }
+    .profile-tag {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--pink-pale); color: var(--pink);
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 0.22rem 0.65rem; border-radius: 999px;
+      margin-bottom: 1.2rem;
+    }
+    .profile-stats-row {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      border: 1px solid var(--border-light); border-radius: 10px;
+      overflow: hidden; margin-bottom: 1rem;
+    }
+    .profile-stat {
+      padding: 0.65rem 0.5rem; text-align: center;
+      border-right: 1px solid var(--border-light);
+    }
+    .profile-stat:last-child { border-right: none; }
+    .ps-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-weight: 700; color: var(--brown);
+    }
+    .ps-lbl { font-size: 0.65rem; color: var(--muted-light); }
+    .btn-pink-full {
+      width: 100%; background: var(--pink); color: var(--white);
+      font-family: inherit; font-size: 0.82rem; font-weight: 600;
+      border: none; cursor: pointer; padding: 0.65rem;
+      border-radius: 8px; transition: background 0.2s;
+    }
+    .btn-pink-full:hover { background: #c45868; }
+
+    /* Member Spotlight */
+    .spotlight-list { display: flex; flex-direction: column; gap: 0.85rem; }
+    .spotlight-member {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .spotlight-av {
+      width: 38px; height: 38px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700; color: var(--white);
+      flex-shrink: 0;
+    }
+    .spotlight-info { flex: 1; min-width: 0; }
+    .spotlight-name { font-size: 0.85rem; font-weight: 600; color: var(--brown); }
+    .spotlight-role { font-size: 0.72rem; color: var(--muted-light); }
+    .spotlight-follow {
+      font-size: 0.72rem; font-weight: 600; color: var(--brown);
+      background: var(--cream-dark); border: 1px solid var(--border);
+      padding: 0.25rem 0.65rem; border-radius: 6px;
+      cursor: pointer; transition: all 0.15s;
+      font-family: inherit; flex-shrink: 0;
+    }
+    .spotlight-follow:hover { background: var(--brown); color: var(--cream); }
+    .spotlight-follow.following { background: var(--pink-pale); border-color: var(--pink); color: var(--pink); }
+
+    /* Trending Topics */
+    .topics-list { display: flex; flex-direction: column; gap: 0; }
+    .topic-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.7rem 0; border-bottom: 1px solid var(--border-light);
+      cursor: pointer;
+    }
+    .topic-item:last-child { border-bottom: none; }
+    .topic-tag {
+      font-size: 0.82rem; font-weight: 600; color: var(--brown);
+      transition: color 0.15s;
+    }
+    .topic-item:hover .topic-tag { color: var(--pink); }
+    .topic-count { font-size: 0.72rem; color: var(--muted-light); }
+
+    /* Resources */
+    .resource-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 0.7rem 0; border-bottom: 1px solid var(--border-light);
+      cursor: pointer; text-decoration: none;
+    }
+    .resource-item:last-child { border-bottom: none; }
+    .resource-icon {
+      width: 34px; height: 34px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+      background: var(--cream);
+    }
+    .resource-text { flex: 1; min-width: 0; }
+    .resource-name { font-size: 0.82rem; font-weight: 600; color: var(--brown); line-height: 1.3; }
+    .resource-type { font-size: 0.7rem; color: var(--muted-light); }
+    .resource-item:hover .resource-name { color: var(--pink); }
+
+    /* ══════════════════════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════════════════════ */
+    footer {
+      background: var(--brown);
+      color: var(--cream);
+      padding: 3rem 1.5rem 2rem;
+      margin-top: 3rem;
+    }
+    .footer-inner {
+      max-width: 1260px; margin: 0 auto;
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(245,239,224,0.12);
+    }
+    .footer-logo-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 0.9rem; }
+    .footer-logo-img { width: 40px; height: 40px; border-radius: 50%; }
+    .footer-logo-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; font-weight: 700; color: var(--cream);
+    }
+    .footer-desc { font-size: 0.82rem; color: rgba(245,239,224,0.55); line-height: 1.7; max-width: 240px; }
+    .footer-col h4 {
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col a {
+      text-decoration: none; font-size: 0.83rem;
+      color: rgba(245,239,224,0.6); transition: color 0.15s;
+    }
+    .footer-col a:hover { color: var(--cream); }
+    .footer-bottom {
+      max-width: 1260px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 1.5rem; flex-wrap: wrap; gap: 0.75rem;
+    }
+    .footer-copy { font-size: 0.75rem; color: rgba(245,239,224,0.35); }
+    .footer-tagline {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 0.82rem; color: rgba(245,239,224,0.4);
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       ANIMATIONS
+    ══════════════════════════════════════════════════════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .anim-1 { animation: fadeUp 0.5s 0.05s ease both; }
+    .anim-2 { animation: fadeUp 0.5s 0.12s ease both; }
+    .anim-3 { animation: fadeUp 0.5s 0.20s ease both; }
+    .anim-4 { animation: fadeUp 0.5s 0.28s ease both; }
+
+    /* ══════════════════════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .portal-layout { grid-template-columns: 1fr; }
+      .portal-sidebar { position: static; display: grid; grid-template-columns: 1fr 1fr; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 680px) {
+      .post-grid { grid-template-columns: 1fr; }
+      .topnav-tabs { display: none; }
+      .welcome-inner { flex-direction: column; align-items: flex-start; }
+      .welcome-cta-area { flex-direction: row; align-self: stretch; }
+      .portal-sidebar { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Full-page soft-orb background — pure CSS, zero JS, GPU-only -->
+<div id="bgOrbs" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+  <div class="orb orb-5"></div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     TOP NAV
+══════════════════════════════════════════ -->
+<nav class="topnav">
+  <a href="#" class="topnav-logo">
+    <img src="brand_assets/Cozella cirkel.png" alt="Cozella" />
+    <span class="topnav-logo-name">Cozella</span>
+  </a>
+
+  <div class="topnav-divider"></div>
+
+  <ul class="topnav-tabs">
+    <li><a href="#feed" class="active"><span class="tab-icon">✦</span> Feed</a></li>
+    <li><a href="#events"><span class="tab-icon">📅</span> Events</a></li>
+    <li><a href="#members"><span class="tab-icon">👥</span> Members</a></li>
+    <li><a href="#resources"><span class="tab-icon">📚</span> Resources</a></li>
+    <li><a href="#discussions"><span class="tab-icon">💬</span> Discussions</a></li>
+  </ul>
+
+  <div class="topnav-right">
+    <div class="topnav-search">🔍 Search the community…</div>
+    <div class="topnav-icon-btn">🔔<span class="notif-dot"></span></div>
+    <div class="topnav-icon-btn">💌</div>
+    <div class="topnav-avatar">SA</div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     PORTAL LAYOUT
+══════════════════════════════════════════ -->
+<div class="portal-layout">
+
+  <!-- MAIN COLUMN -->
+  <main class="portal-main">
+
+    <!-- Welcome Banner -->
+    <div class="welcome-banner anim-1">
+      <div class="welcome-inner">
+        <div class="welcome-text">
+          <div class="welcome-greeting">✦ Welcome back</div>
+          <h1 class="welcome-name">Good morning, <em>Sophie</em> 🏡</h1>
+          <p class="welcome-sub">
+            3 new posts in your favourite rooms, 1 event this week, and your
+            autumn living room guide has 47 saves. Keep inspiring!
+          </p>
+          <div class="welcome-stats">
+            <div class="ws-item">
+              <div class="ws-val">2,840</div>
+              <div class="ws-lbl">Members</div>
+            </div>
+            <div class="ws-item">
+              <div class="ws-val">147</div>
+              <div class="ws-lbl">Posts this week</div>
+            </div>
+            <div class="ws-item">
+              <div class="ws-val">12</div>
+              <div class="ws-lbl">Upcoming events</div>
+            </div>
+          </div>
+        </div>
+        <div class="welcome-cta-area">
+          <button class="btn-gold">+ Share inspiration</button>
+          <button class="btn-outline-cream">View my profile</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured Post -->
+    <div class="anim-2" id="feed">
+      <div class="sec-header">
+        <span class="sec-title">Featured this week</span>
+        <a href="#" class="sec-link">All posts →</a>
+      </div>
+      <div class="feed-featured">
+        <div class="feed-featured-image">
+          <div class="room-scene">
+            <div class="room-wall"></div>
+            <div class="room-art">🎨</div>
+            <div class="room-lamp"></div>
+            <div class="room-sofa">
+              <div class="room-cushion c1"></div>
+              <div class="room-cushion c2"></div>
+            </div>
+            <div class="room-plant"></div>
+            <div class="room-floor"></div>
+          </div>
+          <div class="feed-featured-tag">Editor's Pick</div>
+        </div>
+        <div class="feed-featured-body">
+          <div class="feed-author-row">
+            <div class="author-avatar" style="background:linear-gradient(135deg,#D96878,#B8A660)">MR</div>
+            <div>
+              <div class="author-name">Margot Reynaud</div>
+              <div class="author-meta">Interior Stylist · est. member since 2023</div>
+            </div>
+          </div>
+          <h2 class="feed-featured-title">How I transformed my rental living room into a warm sanctuary for under €400</h2>
+          <p class="feed-featured-excerpt">
+            Renting doesn't mean you can't have a space that feels completely yours.
+            Through careful layering of textures — linen throws, jute rugs, terracotta
+            accents — I turned a white-box apartment into the cosy retreat I'd always dreamed of.
+            Here's my full process, budget breakdown, and the pieces I'd buy again in a heartbeat.
+          </p>
+          <div class="feed-actions">
+            <button class="feed-action liked">❤️ 204</button>
+            <button class="feed-action">💬 38 comments</button>
+            <button class="feed-action">🔖 Save</button>
+            <a href="#" class="feed-read-more">Read full post →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Post Grid -->
+    <div class="anim-3">
+      <div class="sec-header">
+        <span class="sec-title">Latest from the community</span>
+        <a href="#" class="sec-link">Browse all →</a>
+      </div>
+      <div class="post-grid">
+        <div class="post-card">
+          <div class="post-card-thumb" style="background:linear-gradient(135deg,#f0e6d3,#e8c9a0)">🕯️</div>
+          <div class="post-card-body">
+            <div class="post-card-tag" style="color:var(--pink)">Styling Tips</div>
+            <div class="post-card-title">5 candle arrangements that actually make a room feel bigger</div>
+            <div class="post-card-meta">
+              <span>❤️ 89</span>
+              <span>💬 14</span>
+              <span>2 h ago</span>
+            </div>
+          </div>
+        </div>
+        <div class="post-card">
+          <div class="post-card-thumb" style="background:linear-gradient(135deg,#e8d5b8,#d4be94)">🌿</div>
+          <div class="post-card-body">
+            <div class="post-card-tag" style="color:var(--gold)">Plants & Nature</div>
+            <div class="post-card-title">My low-maintenance indoor jungle: 8 plants that survive anything</div>
+            <div class="post-card-meta">
+              <span>❤️ 152</span>
+              <span>💬 31</span>
+              <span>5 h ago</span>
+            </div>
+          </div>
+        </div>
+        <div class="post-card">
+          <div class="post-card-thumb" style="background:linear-gradient(135deg,#fae8eb,#f0a0ab)">🛋️</div>
+          <div class="post-card-body">
+            <div class="post-card-tag" style="color:var(--pink)">Before & After</div>
+            <div class="post-card-title">From chaos to calm: my bedroom reno in 6 weekends</div>
+            <div class="post-card-meta">
+              <span>❤️ 217</span>
+              <span>💬 52</span>
+              <span>Yesterday</span>
+            </div>
+          </div>
+        </div>
+        <div class="post-card">
+          <div class="post-card-thumb" style="background:linear-gradient(135deg,#f5f0dc,#d4c080)">☕</div>
+          <div class="post-card-body">
+            <div class="post-card-tag" style="color:#8a7030">Morning Rituals</div>
+            <div class="post-card-title">Designing a kitchen corner that makes every morning feel special</div>
+            <div class="post-card-meta">
+              <span>❤️ 73</span>
+              <span>💬 9</span>
+              <span>Yesterday</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Events -->
+    <div class="anim-4" id="events">
+      <div class="sec-header">
+        <span class="sec-title">Upcoming events</span>
+        <a href="#" class="sec-link">Full calendar →</a>
+      </div>
+      <div class="events-list">
+        <div class="event-card">
+          <div class="event-date">
+            <div class="event-date-month">Apr</div>
+            <div class="event-date-day">3</div>
+          </div>
+          <div class="event-info">
+            <div class="event-title">Virtual Styling Workshop: Warm Palettes for Spring</div>
+            <div class="event-meta">
+              <span>🕐 7:00 PM CEST</span>
+              <span>👥 84 going</span>
+              <span class="event-badge badge-online">Online</span>
+            </div>
+          </div>
+          <button class="event-rsvp going">✓ Going</button>
+        </div>
+        <div class="event-card">
+          <div class="event-date">
+            <div class="event-date-month">Apr</div>
+            <div class="event-date-day">10</div>
+          </div>
+          <div class="event-info">
+            <div class="event-title">Amsterdam Member Meetup — Vintage Market & Coffee</div>
+            <div class="event-meta">
+              <span>🕑 2:00 PM</span>
+              <span>👥 29 going</span>
+              <span class="event-badge badge-irl">In person</span>
+            </div>
+          </div>
+          <button class="event-rsvp">RSVP</button>
+        </div>
+        <div class="event-card">
+          <div class="event-date">
+            <div class="event-date-month">Apr</div>
+            <div class="event-date-day">17</div>
+          </div>
+          <div class="event-info">
+            <div class="event-title">Live Q&amp;A: Ask a Professional Interior Stylist</div>
+            <div class="event-meta">
+              <span>🕖 6:30 PM CEST</span>
+              <span>👥 50 / 50</span>
+              <span class="event-badge badge-full">Full</span>
+            </div>
+          </div>
+          <button class="event-rsvp" style="opacity:.5;cursor:not-allowed">Full</button>
+        </div>
+      </div>
+    </div>
+
+  </main><!-- /portal-main -->
+
+  <!-- SIDEBAR -->
+  <aside class="portal-sidebar">
+
+    <!-- Profile card -->
+    <div class="sidebar-card">
+      <div class="profile-card">
+        <div class="profile-avatar-wrap">
+          <div class="profile-avatar-img">SA</div>
+          <div class="profile-online-dot"></div>
+        </div>
+        <div class="profile-name">Sophie Andersson</div>
+        <div class="profile-handle">@sophie.cozy</div>
+        <div class="profile-tag">⭐ Senior Member</div>
+        <div class="profile-stats-row">
+          <div class="profile-stat">
+            <div class="ps-val">47</div>
+            <div class="ps-lbl">Posts</div>
+          </div>
+          <div class="profile-stat">
+            <div class="ps-val">312</div>
+            <div class="ps-lbl">Followers</div>
+          </div>
+          <div class="profile-stat">
+            <div class="ps-val">89</div>
+            <div class="ps-lbl">Following</div>
+          </div>
+        </div>
+        <button class="btn-pink-full">Edit profile</button>
+      </div>
+    </div>
+
+    <!-- Trending Topics -->
+    <div class="sidebar-card">
+      <div class="sidebar-card-header">🔥 Trending Topics</div>
+      <div class="sidebar-card-body">
+        <div class="topics-list">
+          <div class="topic-item">
+            <span class="topic-tag">#autumnpalette</span>
+            <span class="topic-count">142 posts</span>
+          </div>
+          <div class="topic-item">
+            <span class="topic-tag">#smallspaceliving</span>
+            <span class="topic-count">98 posts</span>
+          </div>
+          <div class="topic-item">
+            <span class="topic-tag">#vintagefinds</span>
+            <span class="topic-count">87 posts</span>
+          </div>
+          <div class="topic-item">
+            <span class="topic-tag">#sustainablehome</span>
+            <span class="topic-count">74 posts</span>
+          </div>
+          <div class="topic-item">
+            <span class="topic-tag">#morningritual</span>
+            <span class="topic-count">61 posts</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Member Spotlight -->
+    <div class="sidebar-card" id="members">
+      <div class="sidebar-card-header">✨ Member Spotlight</div>
+      <div class="sidebar-card-body">
+        <div class="spotlight-list">
+          <div class="spotlight-member">
+            <div class="spotlight-av" style="background:linear-gradient(135deg,#D96878,#f0a0ab)">LB</div>
+            <div class="spotlight-info">
+              <div class="spotlight-name">Léa Beaumont</div>
+              <div class="spotlight-role">Textile designer · Paris</div>
+            </div>
+            <button class="spotlight-follow following">Following</button>
+          </div>
+          <div class="spotlight-member">
+            <div class="spotlight-av" style="background:linear-gradient(135deg,#B8A660,#d4c080)">MK</div>
+            <div class="spotlight-info">
+              <div class="spotlight-name">Mads Kjeldsen</div>
+              <div class="spotlight-role">Architect · Copenhagen</div>
+            </div>
+            <button class="spotlight-follow">Follow</button>
+          </div>
+          <div class="spotlight-member">
+            <div class="spotlight-av" style="background:linear-gradient(135deg,#6B4040,#9A6A5A)">YT</div>
+            <div class="spotlight-info">
+              <div class="spotlight-name">Yuki Tanaka</div>
+              <div class="spotlight-role">Stylist · Amsterdam</div>
+            </div>
+            <button class="spotlight-follow">Follow</button>
+          </div>
+          <div class="spotlight-member">
+            <div class="spotlight-av" style="background:linear-gradient(135deg,#D96878,#B8A660)">NV</div>
+            <div class="spotlight-info">
+              <div class="spotlight-name">Nina Vasquez</div>
+              <div class="spotlight-role">Ceramicist · Barcelona</div>
+            </div>
+            <button class="spotlight-follow">Follow</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resources -->
+    <div class="sidebar-card" id="resources">
+      <div class="sidebar-card-header">📚 Resources</div>
+      <div class="sidebar-card-body">
+        <a href="#" class="resource-item">
+          <div class="resource-icon">🎨</div>
+          <div class="resource-text">
+            <div class="resource-name">2025 Colour Forecast</div>
+            <div class="resource-type">PDF Guide · 18 pages</div>
+          </div>
+        </a>
+        <a href="#" class="resource-item">
+          <div class="resource-icon">🛒</div>
+          <div class="resource-text">
+            <div class="resource-name">Member Discount Directory</div>
+            <div class="resource-type">Partners · Updated weekly</div>
+          </div>
+        </a>
+        <a href="#" class="resource-item">
+          <div class="resource-icon">📐</div>
+          <div class="resource-text">
+            <div class="resource-name">Room Layout Planner</div>
+            <div class="resource-type">Interactive tool</div>
+          </div>
+        </a>
+        <a href="#" class="resource-item">
+          <div class="resource-icon">🎥</div>
+          <div class="resource-text">
+            <div class="resource-name">Workshop Recordings</div>
+            <div class="resource-type">Video library · 34 sessions</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </aside>
+
+</div><!-- /portal-layout -->
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo-wrap">
+        <img src="brand_assets/Cozella cirkel.png" alt="Cozella" class="footer-logo-img" />
+        <span class="footer-logo-name">Cozella</span>
+      </div>
+      <p class="footer-desc">A community for people who believe beautiful spaces create beautiful lives. Est. 2023.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Community</h4>
+      <ul>
+        <li><a href="#">Feed</a></li>
+        <li><a href="#">Events</a></li>
+        <li><a href="#">Members</a></li>
+        <li><a href="#">Discussions</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="#">Guides &amp; PDFs</a></li>
+        <li><a href="#">Workshop library</a></li>
+        <li><a href="#">Partner discounts</a></li>
+        <li><a href="#">Room planner</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Info</h4>
+      <ul>
+        <li><a href="#">About Cozella</a></li>
+        <li><a href="#">Membership</a></li>
+        <li><a href="#">Privacy policy</a></li>
+        <li><a href="#">Contact us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 Cozella. All rights reserved.</span>
+    <span class="footer-tagline">"Where beautiful spaces meet beautiful lives."</span>
+  </div>
+</footer>
+
+<script>
+  // Scroll-reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.post-card, .event-card, .sidebar-card').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(14px)';
+    el.style.transition = `opacity 0.45s ${i * 0.06}s ease, transform 0.45s ${i * 0.06}s ease`;
+    observer.observe(el);
+  });
+
+  // Follow toggle
+  document.querySelectorAll('.spotlight-follow').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('following');
+      btn.textContent = btn.classList.contains('following') ? 'Following' : 'Follow';
+    });
+  });
+
+  // RSVP toggle
+  document.querySelectorAll('.event-rsvp:not([style*="cursor:not-allowed"])').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('going');
+      btn.textContent = btn.classList.contains('going') ? '✓ Going' : 'RSVP';
+    });
+  });
+
+  // Like toggle
+  document.querySelectorAll('.feed-action').forEach(btn => {
+    if (btn.textContent.includes('❤')) {
+      btn.addEventListener('click', () => btn.classList.toggle('liked'));
+    }
+  });
+
+  // Active nav highlight on scroll
+  const sections = document.querySelectorAll('[id]');
+  const tabs = document.querySelectorAll('.topnav-tabs a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+    tabs.forEach(t => {
+      t.classList.toggle('active', t.getAttribute('href') === '#' + current);
+    });
+  }, { passive: true });
+</script>
+
+</body>
+</html>

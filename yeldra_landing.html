@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yeldra — De la clarté pour mieux décider</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --base-color-brand--black:      #07001f;
+      --base-color-brand--white:      #ffffff;
+      --base-color-brand--purple:     #6e45ff;
+      --base-color-brand--green:      #3dfd98;
+      --base-color-brand--purple-200: #c6b5ff;
+      --base-color-brand--purple-100: #e3dbff;
+      --base-color-brand--green-300:  #8dfdc3;
+      --base-color-brand--green-200:  #b3fed7;
+      --base-color-brand--purple-300: #a990ff;
+      --surface-1: #0d0030;
+      --surface-2: #110040;
+      --surface-3: #1a0055;
+      --border:    rgba(110,69,255,0.25);
+      --border-bright: rgba(110,69,255,0.55);
+      --muted: rgba(198,181,255,0.65);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--base-color-brand--black);
+      color: var(--base-color-brand--white);
+      font-family: 'Inter', Arial, sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      letter-spacing: 0.5px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* ─── SCROLLBAR ─────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--base-color-brand--black); }
+    ::-webkit-scrollbar-thumb { background: var(--base-color-brand--purple); border-radius: 3px; }
+
+    /* ─── NAVBAR ────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(7,0,31,0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    .nav-inner {
+      max-width: 1160px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-size: 1.35rem; font-weight: 700; letter-spacing: -0.5px;
+      text-decoration: none;
+      color: var(--base-color-brand--white);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .nav-logo span { color: var(--base-color-brand--purple); }
+    .nav-links {
+      display: flex; align-items: center; gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.875rem; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--base-color-brand--white); }
+    .btn-nav {
+      background: var(--base-color-brand--green);
+      color: var(--base-color-brand--black);
+      font-family: inherit; font-size: 0.875rem; font-weight: 700;
+      letter-spacing: 0.3px;
+      border: none; cursor: pointer;
+      padding: 0.55rem 1.25rem;
+      border-radius: 999px;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+    .btn-nav:hover { background: var(--base-color-brand--green-300); transform: translateY(-1px); }
+
+    /* ─── HERO ──────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 9rem 2rem 5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Background glow blobs */
+    .hero::before {
+      content: '';
+      position: absolute; top: 10%; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 600px;
+      background: radial-gradient(ellipse at center,
+        rgba(110,69,255,0.22) 0%,
+        rgba(110,69,255,0.06) 50%,
+        transparent 75%
+      );
+      pointer-events: none;
+    }
+
+    /* Dot-grid pattern */
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(110,69,255,0.18) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 100%);
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 760px; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(110,69,255,0.15);
+      border: 1px solid var(--border-bright);
+      border-radius: 999px;
+      padding: 0.3rem 1rem;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.8px;
+      color: var(--base-color-brand--purple-300);
+      text-transform: uppercase;
+      margin-bottom: 1.8rem;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--base-color-brand--green);
+      box-shadow: 0 0 6px var(--base-color-brand--green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      color: var(--base-color-brand--white);
+      margin-bottom: 1.4rem;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--base-color-brand--purple), var(--base-color-brand--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.08rem; font-weight: 400;
+      color: var(--muted);
+      max-width: 560px; margin: 0 auto 2.2rem;
+      line-height: 1.7;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-ctas {
+      display: flex; align-items: center; gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 4rem;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+    .btn-primary {
+      background: var(--base-color-brand--green);
+      color: var(--base-color-brand--black);
+      font-family: inherit; font-size: 0.95rem; font-weight: 700;
+      border: none; cursor: pointer;
+      padding: 0.8rem 1.8rem;
+      border-radius: 999px;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      letter-spacing: 0.2px;
+    }
+    .btn-primary:hover {
+      background: var(--base-color-brand--green-300);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(61,253,152,0.3);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--base-color-brand--white);
+      font-family: inherit; font-size: 0.95rem; font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.25); cursor: pointer;
+      padding: 0.8rem 1.8rem;
+      border-radius: 999px;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    }
+    .btn-outline:hover {
+      border-color: var(--base-color-brand--purple-200);
+      background: rgba(110,69,255,0.1);
+      transform: translateY(-2px);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── DASHBOARD MOCKUP ──────────────────────────────────── */
+    .hero-mockup-wrap {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 1000px; margin: 0 auto;
+      animation: fadeUp 0.8s 0.4s ease both;
+    }
+    /* glow under mockup */
+    .hero-mockup-wrap::before {
+      content: '';
+      position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%);
+      width: 70%; height: 120px;
+      background: radial-gradient(ellipse at center, rgba(110,69,255,0.35), transparent 70%);
+      filter: blur(20px);
+      pointer-events: none;
+    }
+
+    .dashboard {
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(110,69,255,0.12),
+        0 32px 80px rgba(0,0,0,0.6),
+        0 0 60px rgba(110,69,255,0.08);
+      display: flex;
+      height: 420px;
+    }
+
+    /* Sidebar */
+    .dash-sidebar {
+      width: 200px; flex-shrink: 0;
+      background: rgba(7,0,31,0.9);
+      border-right: 1px solid var(--border);
+      padding: 1.2rem 0;
+      display: flex; flex-direction: column;
+    }
+    .dash-brand {
+      padding: 0 1.2rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0.8rem;
+    }
+    .dash-brand-text {
+      font-size: 0.95rem; font-weight: 700; color: var(--base-color-brand--white);
+    }
+    .dash-brand-text span { color: var(--base-color-brand--purple); }
+    .dash-nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 0.55rem 1.2rem;
+      font-size: 0.78rem; font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      border-radius: 6px; margin: 0 0.5rem;
+    }
+    .dash-nav-item:hover { background: rgba(110,69,255,0.12); color: var(--base-color-brand--white); }
+    .dash-nav-item.active {
+      background: rgba(110,69,255,0.2);
+      color: var(--base-color-brand--white);
+    }
+    .dash-nav-item.active .dash-nav-icon { color: var(--base-color-brand--purple); }
+    .dash-nav-icon { font-size: 0.9rem; width: 16px; text-align: center; }
+    .dash-nav-divider { height: 1px; background: var(--border); margin: 0.6rem 1.2rem; }
+
+    /* Main content */
+    .dash-main {
+      flex: 1; overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .dash-topbar {
+      padding: 0.9rem 1.4rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .dash-page-title {
+      font-size: 0.85rem; font-weight: 600;
+      color: var(--base-color-brand--white);
+    }
+    .dash-topbar-actions { display: flex; gap: 8px; align-items: center; }
+    .dash-btn-sm {
+      background: rgba(110,69,255,0.2);
+      border: 1px solid var(--border);
+      color: var(--base-color-brand--purple-200);
+      font-size: 0.72rem; font-weight: 600;
+      padding: 0.3rem 0.7rem; border-radius: 6px; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .dash-btn-sm:hover { background: rgba(110,69,255,0.35); }
+    .dash-btn-green {
+      background: var(--base-color-brand--green);
+      border: none;
+      color: var(--base-color-brand--black);
+      font-size: 0.72rem; font-weight: 700;
+      padding: 0.3rem 0.7rem; border-radius: 6px; cursor: pointer;
+    }
+
+    .dash-body {
+      flex: 1; overflow: hidden;
+      display: flex; flex-direction: column;
+      padding: 1rem 1.4rem;
+      gap: 1rem;
+    }
+
+    /* KPI cards row */
+    .kpi-row { display: flex; gap: 0.75rem; flex-shrink: 0; }
+    .kpi-card {
+      flex: 1;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+    }
+    .kpi-label { font-size: 0.68rem; font-weight: 500; color: var(--muted); margin-bottom: 0.3rem; }
+    .kpi-value { font-size: 1.3rem; font-weight: 800; color: var(--base-color-brand--white); }
+    .kpi-value.green { color: var(--base-color-brand--green); }
+    .kpi-value.purple { color: var(--base-color-brand--purple-300); }
+    .kpi-delta {
+      font-size: 0.65rem; font-weight: 600; margin-top: 0.15rem;
+      color: var(--base-color-brand--green);
+    }
+    .kpi-delta.neg { color: #f87171; }
+
+    /* Chart mini */
+    .chart-mini {
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+    }
+    .chart-mini-title {
+      font-size: 0.7rem; font-weight: 600; color: var(--muted); margin-bottom: 0.6rem;
+    }
+    .chart-bars {
+      display: flex; align-items: flex-end; gap: 4px; height: 52px;
+    }
+    .chart-bar {
+      flex: 1; border-radius: 3px 3px 0 0;
+      background: rgba(110,69,255,0.4);
+      transition: background 0.2s;
+      min-width: 8px;
+    }
+    .chart-bar:hover { background: var(--base-color-brand--purple); }
+    .chart-bar.green { background: rgba(61,253,152,0.4); }
+    .chart-bar.green:hover { background: var(--base-color-brand--green); }
+
+    /* Table */
+    .dash-table-wrap {
+      flex: 1; overflow: hidden;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .dash-table {
+      width: 100%; border-collapse: collapse; font-size: 0.7rem;
+    }
+    .dash-table thead tr {
+      border-bottom: 1px solid var(--border);
+      background: rgba(110,69,255,0.06);
+    }
+    .dash-table th {
+      padding: 0.5rem 0.9rem; text-align: left;
+      font-weight: 600; color: var(--muted); font-size: 0.65rem;
+      text-transform: uppercase; letter-spacing: 0.8px;
+    }
+    .dash-table td {
+      padding: 0.45rem 0.9rem;
+      border-bottom: 1px solid rgba(110,69,255,0.08);
+      color: rgba(255,255,255,0.85);
+      white-space: nowrap;
+    }
+    .dash-table tbody tr:hover td { background: rgba(110,69,255,0.06); }
+
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem; border-radius: 999px;
+      font-size: 0.63rem; font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    .badge-green  { background: rgba(61,253,152,0.15); color: var(--base-color-brand--green); border: 1px solid rgba(61,253,152,0.3); }
+    .badge-purple { background: rgba(110,69,255,0.2); color: var(--base-color-brand--purple-300); border: 1px solid rgba(110,69,255,0.4); }
+    .badge-gray   { background: rgba(255,255,255,0.07); color: var(--muted); border: 1px solid rgba(255,255,255,0.1); }
+
+    /* score bar */
+    .score-bar {
+      display: flex; align-items: center; gap: 6px; min-width: 80px;
+    }
+    .score-track {
+      flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;
+    }
+    .score-fill { height: 100%; border-radius: 2px; background: var(--base-color-brand--purple); }
+    .score-fill.high { background: var(--base-color-brand--green); }
+    .score-num { font-size: 0.65rem; color: var(--muted); min-width: 22px; text-align: right; }
+
+    /* ─── FEATURES SECTION ──────────────────────────────────── */
+    section { padding: 6rem 2rem; }
+    .section-inner { max-width: 1160px; margin: 0 auto; }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--base-color-brand--purple-300);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800; letter-spacing: -0.8px;
+      line-height: 1.15;
+      color: var(--base-color-brand--white);
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      font-size: 1rem; color: var(--muted);
+      max-width: 520px; line-height: 1.7;
+      margin-bottom: 3.5rem;
+    }
+
+    .features-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--base-color-brand--purple), transparent);
+      opacity: 0; transition: opacity 0.25s;
+    }
+    .feature-card:hover {
+      border-color: var(--border-bright);
+      box-shadow: 0 0 40px rgba(110,69,255,0.12);
+      transform: translateY(-4px);
+    }
+    .feature-card:hover::before { opacity: 1; }
+
+    .feature-icon {
+      width: 48px; height: 48px;
+      background: rgba(110,69,255,0.15);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 1.2rem;
+    }
+    .feature-card h3 {
+      font-size: 1.05rem; font-weight: 700;
+      color: var(--base-color-brand--white);
+      margin-bottom: 0.6rem; letter-spacing: -0.2px;
+    }
+    .feature-card p {
+      font-size: 0.875rem; color: var(--muted); line-height: 1.65;
+    }
+
+    /* ─── DETAIL SECTION ────────────────────────────────────── */
+    .detail-section {
+      background: rgba(255,255,255,0.01);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .detail-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+    }
+    .detail-text {}
+    .detail-list {
+      list-style: none; margin-top: 1.5rem;
+      display: flex; flex-direction: column; gap: 0.9rem;
+    }
+    .detail-list li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 0.9rem; color: rgba(255,255,255,0.8);
+    }
+    .detail-list li::before {
+      content: '✓';
+      flex-shrink: 0; margin-top: 1px;
+      color: var(--base-color-brand--green);
+      font-weight: 700; font-size: 0.85rem;
+    }
+    .detail-cta { margin-top: 2rem; }
+
+    /* Analytics card */
+    .analytics-card {
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 40px rgba(110,69,255,0.07);
+    }
+    .analytics-header {
+      padding: 1rem 1.4rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .analytics-title { font-size: 0.82rem; font-weight: 600; color: var(--base-color-brand--white); }
+    .analytics-period {
+      font-size: 0.7rem; color: var(--muted);
+      background: rgba(255,255,255,0.05);
+      padding: 0.2rem 0.6rem; border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+    .analytics-body { padding: 1.4rem; }
+
+    /* SVG line chart */
+    .line-chart { width: 100%; overflow: visible; }
+
+    .analytics-legend {
+      display: flex; gap: 1.2rem; margin-top: 0.8rem;
+    }
+    .legend-item {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.72rem; color: var(--muted);
+    }
+    .legend-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+    }
+
+    .analytics-metrics {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0; border-top: 1px solid var(--border); margin-top: 1rem;
+    }
+    .metric-item {
+      padding: 1rem 1.2rem;
+      border-right: 1px solid var(--border);
+    }
+    .metric-item:last-child { border-right: none; }
+    .metric-label { font-size: 0.68rem; color: var(--muted); margin-bottom: 0.3rem; }
+    .metric-val { font-size: 1.1rem; font-weight: 800; color: var(--base-color-brand--white); }
+    .metric-delta { font-size: 0.65rem; color: var(--base-color-brand--green); font-weight: 600; margin-top: 0.1rem; }
+
+    /* ─── STATS SECTION ─────────────────────────────────────── */
+    .stats-section { text-align: center; }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2rem; margin-top: 3rem;
+    }
+    .stat-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 2.5rem 2rem;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .stat-item:hover { border-color: var(--border-bright); transform: translateY(-3px); }
+    .stat-number {
+      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      font-weight: 900; letter-spacing: -2px;
+      color: var(--base-color-brand--green);
+      line-height: 1;
+      margin-bottom: 0.6rem;
+    }
+    .stat-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+
+    /* ─── CTA SECTION ───────────────────────────────────────── */
+    .cta-section {
+      position: relative; overflow: hidden;
+      text-align: center;
+      background: linear-gradient(180deg, transparent 0%, rgba(110,69,255,0.08) 50%, transparent 100%);
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 700px; height: 400px;
+      background: radial-gradient(ellipse at center, rgba(110,69,255,0.18), transparent 70%);
+      pointer-events: none;
+    }
+    .cta-inner { position: relative; z-index: 1; }
+    .cta-inner .section-title { max-width: 600px; margin: 0 auto 0.8rem; }
+    .cta-inner .section-sub { margin: 0 auto 2.2rem; }
+
+    /* ─── FOOTER ────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+    }
+    .footer-inner {
+      max-width: 1160px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem;
+    }
+    .footer-logo {
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--base-color-brand--white); text-decoration: none;
+    }
+    .footer-logo span { color: var(--base-color-brand--purple); }
+    .footer-links {
+      display: flex; gap: 2rem; list-style: none;
+    }
+    .footer-links a {
+      text-decoration: none; color: var(--muted);
+      font-size: 0.8rem; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--base-color-brand--white); }
+    .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+
+    /* ─── RESPONSIVE ────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .detail-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .dash-sidebar { width: 160px; }
+      .kpi-row { flex-wrap: wrap; }
+    }
+    @media (max-width: 640px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .dashboard { height: 300px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAVBAR ──────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">yeld<span>ra</span></a>
+    <ul class="nav-links">
+      <li><a href="#features">Fonctionnalités</a></li>
+      <li><a href="#analytics">Analyses</a></li>
+      <li><a href="#pricing">Tarifs</a></li>
+      <li><a href="#about">À propos</a></li>
+    </ul>
+    <button class="btn-nav">Commencer</button>
+  </div>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Nouveau · Analyses IA en temps réel
+    </div>
+    <h1>De la clarté pour<br /><em>mieux décider</em></h1>
+    <p class="hero-sub">
+      Yeldra centralise vos données clients et génère des analyses prêtes à l'emploi
+      pour que chaque décision soit prise avec confiance.
+    </p>
+    <div class="hero-ctas">
+      <button class="btn-primary">Commencer gratuitement</button>
+      <button class="btn-outline">Voir la démo →</button>
+    </div>
+  </div>
+
+  <!-- Dashboard mockup -->
+  <div class="hero-mockup-wrap">
+    <div class="dashboard">
+
+      <!-- Sidebar -->
+      <div class="dash-sidebar">
+        <div class="dash-brand">
+          <div class="dash-brand-text">yeld<span>ra</span></div>
+        </div>
+        <div class="dash-nav-item active">
+          <span class="dash-nav-icon">▦</span> Vue d'ensemble
+        </div>
+        <div class="dash-nav-item">
+          <span class="dash-nav-icon">◈</span> Clients
+        </div>
+        <div class="dash-nav-item">
+          <span class="dash-nav-icon">⌖</span> Analyses
+        </div>
+        <div class="dash-nav-item">
+          <span class="dash-nav-icon">◉</span> Rapports
+        </div>
+        <div class="dash-nav-divider"></div>
+        <div class="dash-nav-item">
+          <span class="dash-nav-icon">⊞</span> Intégrations
+        </div>
+        <div class="dash-nav-item">
+          <span class="dash-nav-icon">⚙</span> Paramètres
+        </div>
+      </div>
+
+      <!-- Main -->
+      <div class="dash-main">
+        <div class="dash-topbar">
+          <span class="dash-page-title">Vue d'ensemble · Mars 2026</span>
+          <div class="dash-topbar-actions">
+            <button class="dash-btn-sm">Exporter</button>
+            <button class="dash-btn-sm">Filtrer</button>
+            <button class="dash-btn-green">+ Nouveau rapport</button>
+          </div>
+        </div>
+        <div class="dash-body">
+
+          <!-- KPIs -->
+          <div class="kpi-row">
+            <div class="kpi-card">
+              <div class="kpi-label">Chiffre d'affaires</div>
+              <div class="kpi-value green">€ 284 k</div>
+              <div class="kpi-delta">↑ +18 % vs mois dernier</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Clients actifs</div>
+              <div class="kpi-value purple">1 247</div>
+              <div class="kpi-delta">↑ +94 nouveaux</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Taux de rétention</div>
+              <div class="kpi-value">87,4 %</div>
+              <div class="kpi-delta neg">↓ −1.2 pts</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Score NPS</div>
+              <div class="kpi-value green">+52</div>
+              <div class="kpi-delta">↑ +7 pts</div>
+            </div>
+          </div>
+
+          <!-- Chart -->
+          <div class="chart-mini">
+            <div class="chart-mini-title">REVENUS — 12 DERNIERS MOIS</div>
+            <div class="chart-bars">
+              <div class="chart-bar" style="height:45%"></div>
+              <div class="chart-bar" style="height:52%"></div>
+              <div class="chart-bar green" style="height:48%"></div>
+              <div class="chart-bar" style="height:61%"></div>
+              <div class="chart-bar green" style="height:57%"></div>
+              <div class="chart-bar" style="height:70%"></div>
+              <div class="chart-bar" style="height:66%"></div>
+              <div class="chart-bar green" style="height:74%"></div>
+              <div class="chart-bar" style="height:82%"></div>
+              <div class="chart-bar green" style="height:79%"></div>
+              <div class="chart-bar" style="height:88%"></div>
+              <div class="chart-bar green" style="height:100%"></div>
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div class="dash-table-wrap">
+            <table class="dash-table">
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>Segment</th>
+                  <th>Valeur</th>
+                  <th>Statut</th>
+                  <th>Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Acme Corp.</td>
+                  <td><span class="badge badge-purple">Enterprise</span></td>
+                  <td>€ 48 200</td>
+                  <td><span class="badge badge-green">Actif</span></td>
+                  <td>
+                    <div class="score-bar">
+                      <div class="score-track"><div class="score-fill high" style="width:92%"></div></div>
+                      <span class="score-num">92</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Bright Solutions</td>
+                  <td><span class="badge badge-gray">PME</span></td>
+                  <td>€ 12 400</td>
+                  <td><span class="badge badge-green">Actif</span></td>
+                  <td>
+                    <div class="score-bar">
+                      <div class="score-track"><div class="score-fill" style="width:76%"></div></div>
+                      <span class="score-num">76</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Horizon SAS</td>
+                  <td><span class="badge badge-purple">Enterprise</span></td>
+                  <td>€ 31 750</td>
+                  <td><span class="badge badge-gray">En attente</span></td>
+                  <td>
+                    <div class="score-bar">
+                      <div class="score-track"><div class="score-fill" style="width:61%"></div></div>
+                      <span class="score-num">61</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Nova Digital</td>
+                  <td><span class="badge badge-gray">PME</span></td>
+                  <td>€ 8 900</td>
+                  <td><span class="badge badge-green">Actif</span></td>
+                  <td>
+                    <div class="score-bar">
+                      <div class="score-track"><div class="score-fill high" style="width:84%"></div></div>
+                      <span class="score-num">84</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div><!-- /dash-body -->
+      </div><!-- /dash-main -->
+    </div><!-- /dashboard -->
+  </div><!-- /hero-mockup-wrap -->
+</section>
+
+<!-- ─── FEATURES ──────────────────────────────────────────────── -->
+<section id="features">
+  <div class="section-inner">
+    <span class="section-label">Fonctionnalités clés</span>
+    <h2 class="section-title">Tout ce dont vous avez besoin<br />pour piloter vos clients</h2>
+    <p class="section-sub">
+      De la collecte à l'action, Yeldra couvre chaque étape de votre cycle client
+      avec une précision sans compromis.
+    </p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🗄️</div>
+        <h3>Centralisation des données</h3>
+        <p>Agrégez toutes vos sources clients — CRM, e-commerce, support — en un seul espace structuré et consultable en temps réel.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Analyses automatiques</h3>
+        <p>Notre IA génère des rapports prêts à partager dès que les données changent. Zéro configuration, résultats immédiats.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Décisions confiantes</h3>
+        <p>Chaque recommandation s'appuie sur des données vérifiées. Vos équipes agissent vite, avec la certitude d'être dans le vrai.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DETAIL ────────────────────────────────────────────────── -->
+<section id="analytics" class="detail-section">
+  <div class="section-inner">
+    <div class="detail-grid">
+      <div class="detail-text">
+        <span class="section-label">Intelligence client</span>
+        <h2 class="section-title">Vos données,<br />enfin exploitables</h2>
+        <p class="section-sub" style="margin-bottom:0">
+          Yeldra transforme vos données brutes en insights actionnables
+          grâce à des visualisations claires et des analyses contextuelles.
+        </p>
+        <ul class="detail-list">
+          <li>Segmentation client automatique par comportement et valeur</li>
+          <li>Alertes intelligentes sur les signaux de churn</li>
+          <li>Tableaux de bord personnalisables par rôle</li>
+          <li>Export en un clic vers Slides, Sheets ou PDF</li>
+          <li>Historique complet avec traçabilité des décisions</li>
+        </ul>
+        <div class="detail-cta">
+          <button class="btn-primary">Découvrir les analyses</button>
+        </div>
+      </div>
+      <div>
+        <div class="analytics-card">
+          <div class="analytics-header">
+            <span class="analytics-title">Évolution — Revenus & Rétention</span>
+            <span class="analytics-period">Jan → Mar 2026</span>
+          </div>
+          <div class="analytics-body">
+            <svg class="line-chart" viewBox="0 0 340 120" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="fillGreen" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#3dfd98" stop-opacity="0.25"/>
+                  <stop offset="100%" stop-color="#3dfd98" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="fillPurple" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#6e45ff" stop-opacity="0.2"/>
+                  <stop offset="100%" stop-color="#6e45ff" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <!-- Grid lines -->
+              <line x1="0" y1="30" x2="340" y2="30" stroke="rgba(110,69,255,0.1)" stroke-width="1"/>
+              <line x1="0" y1="60" x2="340" y2="60" stroke="rgba(110,69,255,0.1)" stroke-width="1"/>
+              <line x1="0" y1="90" x2="340" y2="90" stroke="rgba(110,69,255,0.1)" stroke-width="1"/>
+              <!-- Green area -->
+              <path d="M0,90 C40,80 80,60 110,50 S180,30 220,20 S290,10 340,15 V120 H0Z"
+                    fill="url(#fillGreen)"/>
+              <!-- Green line -->
+              <path d="M0,90 C40,80 80,60 110,50 S180,30 220,20 S290,10 340,15"
+                    fill="none" stroke="#3dfd98" stroke-width="2" stroke-linecap="round"/>
+              <!-- Purple area -->
+              <path d="M0,100 C50,95 100,85 140,78 S210,65 260,60 S310,58 340,55 V120 H0Z"
+                    fill="url(#fillPurple)"/>
+              <!-- Purple line -->
+              <path d="M0,100 C50,95 100,85 140,78 S210,65 260,60 S310,58 340,55"
+                    fill="none" stroke="#6e45ff" stroke-width="2" stroke-linecap="round"/>
+              <!-- Dots green -->
+              <circle cx="110" cy="50" r="3" fill="#3dfd98"/>
+              <circle cx="220" cy="20" r="3" fill="#3dfd98"/>
+              <circle cx="340" cy="15" r="3" fill="#3dfd98"/>
+              <!-- Dots purple -->
+              <circle cx="140" cy="78" r="3" fill="#6e45ff"/>
+              <circle cx="260" cy="60" r="3" fill="#6e45ff"/>
+              <circle cx="340" cy="55" r="3" fill="#6e45ff"/>
+            </svg>
+            <div class="analytics-legend">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#3dfd98"></div>
+                Revenus
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#6e45ff"></div>
+                Rétention
+              </div>
+            </div>
+          </div>
+          <div class="analytics-metrics">
+            <div class="metric-item">
+              <div class="metric-label">MRR actuel</div>
+              <div class="metric-val">€ 94,2 k</div>
+              <div class="metric-delta">↑ +22 %</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Rétention</div>
+              <div class="metric-val">87,4 %</div>
+              <div class="metric-delta">↑ stable</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">LTV moyen</div>
+              <div class="metric-val">€ 6 820</div>
+              <div class="metric-delta">↑ +11 %</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── STATS ──────────────────────────────────────────────────── -->
+<section class="stats-section">
+  <div class="section-inner">
+    <span class="section-label">Résultats mesurables</span>
+    <h2 class="section-title">Des gains concrets,<br />dès le premier mois</h2>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">+50 %</div>
+        <div class="stat-desc">de rapidité dans la prise de décision client grâce aux analyses automatisées</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">3× </div>
+        <div class="stat-desc">plus de données exploitées par rapport à un CRM classique</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">−32 %</div>
+        <div class="stat-desc">de churn grâce à la détection proactive des signaux faibles</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ───────────────────────────────────────────────────── -->
+<section class="cta-section">
+  <div class="section-inner cta-inner">
+    <span class="section-label">Passez à l'action</span>
+    <h2 class="section-title">Prêt à décider<br />avec clarté ?</h2>
+    <p class="section-sub">
+      Rejoignez plus de 800 équipes qui pilotent leur croissance avec Yeldra.
+      Gratuit pendant 14 jours, sans carte bancaire.
+    </p>
+    <button class="btn-primary" style="font-size:1.05rem; padding:0.9rem 2.2rem;">
+      Commencer gratuitement
+    </button>
+  </div>
+</section>
+
+<!-- ─── FOOTER ────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <a href="#" class="footer-logo">yeld<span>ra</span></a>
+    <ul class="footer-links">
+      <li><a href="#">Fonctionnalités</a></li>
+      <li><a href="#">Tarifs</a></li>
+      <li><a href="#">Documentation</a></li>
+      <li><a href="#">Blog</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+    <span class="footer-copy">© 2026 Yeldra. Tous droits réservés.</span>
+  </div>
+</footer>
+
+<script>
+  // Scroll-reveal animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.feature-card, .stat-item, .analytics-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+
+  // Stagger feature cards
+  document.querySelectorAll('.feature-card').forEach((el, i) => {
+    el.style.transitionDelay = `${i * 0.1}s`;
+  });
+</script>
+
+</body>
+</html>
