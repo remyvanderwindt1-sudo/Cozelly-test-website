@@ -763,6 +763,23 @@
     }
     .mobile-drawer a:last-child { border-bottom: none; }
     .mobile-drawer a:hover { background: var(--cream-dark); color: var(--pink); }
+    /* Language toggle */
+    .lang-switch {
+      display: flex; align-items: center;
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 999px; overflow: hidden;
+      flex-shrink: 0; height: 34px;
+    }
+    .lang-btn {
+      padding: 0 0.7rem; height: 100%;
+      font-family: inherit; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.05em; cursor: pointer;
+      background: none; border: none; color: var(--muted);
+      transition: background 0.15s, color 0.15s;
+    }
+    .lang-btn.active { background: var(--brown); color: var(--cream); }
+    .lang-btn:not(.active):hover { background: var(--cream-dark); color: var(--brown); }
+
     .mobile-drawer .mob-search {
       display: flex; align-items: center; gap: 8px;
       background: var(--white); border: 1px solid var(--border);
@@ -838,14 +855,18 @@
 
   <ul class="topnav-tabs">
     <li><a href="#feed" class="active"><span class="tab-icon">✦</span> Feed</a></li>
-    <li><a href="#events"><span class="tab-icon">📅</span> Events</a></li>
-    <li><a href="#members"><span class="tab-icon">👥</span> Members</a></li>
-    <li><a href="#resources"><span class="tab-icon">📚</span> Resources</a></li>
-    <li><a href="#discussions"><span class="tab-icon">💬</span> Discussions</a></li>
+    <li><a href="#events"><span class="tab-icon">📅</span> <span data-en="Events" data-nl="Evenementen">Evenementen</span></a></li>
+    <li><a href="#members"><span class="tab-icon">👥</span> <span data-en="Members" data-nl="Leden">Leden</span></a></li>
+    <li><a href="#resources"><span class="tab-icon">📚</span> <span data-en="Resources" data-nl="Bronnen">Bronnen</span></a></li>
+    <li><a href="#discussions"><span class="tab-icon">💬</span> <span data-en="Discussions" data-nl="Discussies">Discussies</span></a></li>
   </ul>
 
   <div class="topnav-right">
-    <div class="topnav-search">🔍 Search the community…</div>
+    <div class="topnav-search" data-en="🔍 Search the community…" data-nl="🔍 Zoek in de community…">🔍 Zoek in de community…</div>
+    <div class="lang-switch">
+      <button class="lang-btn" data-lang="nl" onclick="setLang('nl')">NL</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
     <div class="topnav-icon-btn">🔔<span class="notif-dot"></span></div>
     <div class="topnav-icon-btn">💌</div>
     <div class="topnav-avatar">SA</div>
@@ -856,12 +877,12 @@
 
   <!-- Mobile nav drawer -->
   <div class="mobile-drawer" id="mobileDrawer">
-    <div class="mob-search">🔍 Search the community…</div>
+    <div class="mob-search" data-en="🔍 Search the community…" data-nl="🔍 Zoek in de community…">🔍 Zoek in de community…</div>
     <a href="#feed">✦ Feed</a>
-    <a href="#events">📅 Events</a>
-    <a href="#members">👥 Members</a>
-    <a href="#resources">📚 Resources</a>
-    <a href="#discussions">💬 Discussions</a>
+    <a href="#events">📅 <span data-en="Events" data-nl="Evenementen">Evenementen</span></a>
+    <a href="#members">👥 <span data-en="Members" data-nl="Leden">Leden</span></a>
+    <a href="#resources">📚 <span data-en="Resources" data-nl="Bronnen">Bronnen</span></a>
+    <a href="#discussions">💬 <span data-en="Discussions" data-nl="Discussies">Discussies</span></a>
   </div>
 </nav>
 
@@ -877,30 +898,27 @@
     <div class="welcome-banner anim-1">
       <div class="welcome-inner">
         <div class="welcome-text">
-          <div class="welcome-greeting">✦ Welcome back</div>
-          <h1 class="welcome-name">Good morning, <em>Sophie</em> 🏡</h1>
-          <p class="welcome-sub">
-            3 new posts in your favourite rooms, 1 event this week, and your
-            autumn living room guide has 47 saves. Keep inspiring!
-          </p>
+          <div class="welcome-greeting" data-en="✦ Welcome back" data-nl="✦ Welkom terug">✦ Welkom terug</div>
+          <h1 class="welcome-name" data-en-html="Good morning, <em>Sophie</em> 🏡" data-nl-html="Goedemorgen, <em>Sophie</em> 🏡">Goedemorgen, <em>Sophie</em> 🏡</h1>
+          <p class="welcome-sub" data-en="3 new posts in your favourite rooms, 1 event this week, and your autumn living room guide has 47 saves. Keep inspiring!" data-nl="3 nieuwe berichten in je favoriete kamers, 1 evenement deze week, en je herfst woonkamergids heeft 47 saves. Blijf inspireren!">3 nieuwe berichten in je favoriete kamers, 1 evenement deze week, en je herfst woonkamergids heeft 47 saves. Blijf inspireren!</p>
           <div class="welcome-stats">
             <div class="ws-item">
-              <div class="ws-val">2,840</div>
-              <div class="ws-lbl">Members</div>
+              <div class="ws-val">2.840</div>
+              <div class="ws-lbl" data-en="Members" data-nl="Leden">Leden</div>
             </div>
             <div class="ws-item">
               <div class="ws-val">147</div>
-              <div class="ws-lbl">Posts this week</div>
+              <div class="ws-lbl" data-en="Posts this week" data-nl="Berichten deze week">Berichten deze week</div>
             </div>
             <div class="ws-item">
               <div class="ws-val">12</div>
-              <div class="ws-lbl">Upcoming events</div>
+              <div class="ws-lbl" data-en="Upcoming events" data-nl="Aankomende evenementen">Aankomende evenementen</div>
             </div>
           </div>
         </div>
         <div class="welcome-cta-area">
-          <button class="btn-gold">+ Share inspiration</button>
-          <button class="btn-outline-cream">View my profile</button>
+          <button class="btn-gold" data-en="+ Share inspiration" data-nl="+ Deel inspiratie">+ Deel inspiratie</button>
+          <button class="btn-outline-cream" data-en="View my profile" data-nl="Bekijk mijn profiel">Bekijk mijn profiel</button>
         </div>
       </div>
     </div>
@@ -908,8 +926,8 @@
     <!-- Featured Post -->
     <div class="anim-2" id="feed">
       <div class="sec-header">
-        <span class="sec-title">Featured this week</span>
-        <a href="#" class="sec-link">All posts →</a>
+        <span class="sec-title" data-en="Featured this week" data-nl="Uitgelicht deze week">Uitgelicht deze week</span>
+        <a href="#" class="sec-link" data-en="All posts →" data-nl="Alle berichten →">Alle berichten →</a>
       </div>
       <div class="feed-featured">
         <div class="feed-featured-image">
@@ -924,28 +942,23 @@
             <div class="room-plant"></div>
             <div class="room-floor"></div>
           </div>
-          <div class="feed-featured-tag">Editor's Pick</div>
+          <div class="feed-featured-tag" data-en="Editor's Pick" data-nl="Redactiekeuze">Redactiekeuze</div>
         </div>
         <div class="feed-featured-body">
           <div class="feed-author-row">
             <div class="author-avatar" style="background:linear-gradient(135deg,#D96878,#B8A660)">MR</div>
             <div>
               <div class="author-name">Margot Reynaud</div>
-              <div class="author-meta">Interior Stylist · est. member since 2023</div>
+              <div class="author-meta" data-en="Interior Stylist · est. member since 2023" data-nl="Interieurstyliste · lid sinds 2023">Interieurstyliste · lid sinds 2023</div>
             </div>
           </div>
-          <h2 class="feed-featured-title">How I transformed my rental living room into a warm sanctuary for under €400</h2>
-          <p class="feed-featured-excerpt">
-            Renting doesn't mean you can't have a space that feels completely yours.
-            Through careful layering of textures — linen throws, jute rugs, terracotta
-            accents — I turned a white-box apartment into the cosy retreat I'd always dreamed of.
-            Here's my full process, budget breakdown, and the pieces I'd buy again in a heartbeat.
-          </p>
+          <h2 class="feed-featured-title" data-en="How I transformed my rental living room into a warm sanctuary for under €400" data-nl="Hoe ik mijn huurwoonkamer veranderde in een warm toevluchtsoord voor minder dan €400">Hoe ik mijn huurwoonkamer veranderde in een warm toevluchtsoord voor minder dan €400</h2>
+          <p class="feed-featured-excerpt" data-en="Renting doesn't mean you can't have a space that feels completely yours. Through careful layering of textures — linen throws, jute rugs, terracotta accents — I turned a white-box apartment into the cosy retreat I'd always dreamed of. Here's my full process, budget breakdown, and the pieces I'd buy again in a heartbeat." data-nl="Huren betekent niet dat je geen ruimte kunt hebben die echt van jou aanvoelt. Door het zorgvuldig laagjes leggen van texturen — linnen plaids, jute kleden, terracotta accenten — veranderde ik een kale huurwoning in het gezellige thuis dat ik altijd had gedroomd. Dit is mijn volledige proces, budgetoverzicht en de stukken die ik zo opnieuw zou kopen.">Huren betekent niet dat je geen ruimte kunt hebben die echt van jou aanvoelt. Door het zorgvuldig laagjes leggen van texturen — linnen plaids, jute kleden, terracotta accenten — veranderde ik een kale huurwoning in het gezellige thuis dat ik altijd had gedroomd. Dit is mijn volledige proces, budgetoverzicht en de stukken die ik zo opnieuw zou kopen.</p>
           <div class="feed-actions">
             <button class="feed-action liked">❤️ 204</button>
-            <button class="feed-action">💬 38 comments</button>
-            <button class="feed-action">🔖 Save</button>
-            <a href="#" class="feed-read-more">Read full post →</a>
+            <button class="feed-action" data-en="💬 38 comments" data-nl="💬 38 reacties">💬 38 reacties</button>
+            <button class="feed-action" data-en="🔖 Save" data-nl="🔖 Opslaan">🔖 Opslaan</button>
+            <a href="#" class="feed-read-more" data-en="Read full post →" data-nl="Lees volledig bericht →">Lees volledig bericht →</a>
           </div>
         </div>
       </div>
@@ -954,55 +967,55 @@
     <!-- Post Grid -->
     <div class="anim-3">
       <div class="sec-header">
-        <span class="sec-title">Latest from the community</span>
-        <a href="#" class="sec-link">Browse all →</a>
+        <span class="sec-title" data-en="Latest from the community" data-nl="Laatste van de community">Laatste van de community</span>
+        <a href="#" class="sec-link" data-en="Browse all →" data-nl="Alles bekijken →">Alles bekijken →</a>
       </div>
       <div class="post-grid">
         <div class="post-card">
           <div class="post-card-thumb" style="background:linear-gradient(135deg,#f0e6d3,#e8c9a0)">🕯️</div>
           <div class="post-card-body">
-            <div class="post-card-tag" style="color:var(--pink)">Styling Tips</div>
-            <div class="post-card-title">5 candle arrangements that actually make a room feel bigger</div>
+            <div class="post-card-tag" style="color:var(--pink)" data-en="Styling Tips" data-nl="Stylingtips">Stylingtips</div>
+            <div class="post-card-title" data-en="5 candle arrangements that actually make a room feel bigger" data-nl="5 kaarsopstellingen die een kamer echt groter laten lijken">5 kaarsopstellingen die een kamer echt groter laten lijken</div>
             <div class="post-card-meta">
               <span>❤️ 89</span>
               <span>💬 14</span>
-              <span>2 h ago</span>
+              <span data-en="2 h ago" data-nl="2 u geleden">2 u geleden</span>
             </div>
           </div>
         </div>
         <div class="post-card">
           <div class="post-card-thumb" style="background:linear-gradient(135deg,#e8d5b8,#d4be94)">🌿</div>
           <div class="post-card-body">
-            <div class="post-card-tag" style="color:var(--gold)">Plants & Nature</div>
-            <div class="post-card-title">My low-maintenance indoor jungle: 8 plants that survive anything</div>
+            <div class="post-card-tag" style="color:var(--gold)" data-en="Plants & Nature" data-nl="Planten & Natuur">Planten & Natuur</div>
+            <div class="post-card-title" data-en="My low-maintenance indoor jungle: 8 plants that survive anything" data-nl="Mijn onderhoudsarme binnenjungle: 8 planten die alles overleven">Mijn onderhoudsarme binnenjungle: 8 planten die alles overleven</div>
             <div class="post-card-meta">
               <span>❤️ 152</span>
               <span>💬 31</span>
-              <span>5 h ago</span>
+              <span data-en="5 h ago" data-nl="5 u geleden">5 u geleden</span>
             </div>
           </div>
         </div>
         <div class="post-card">
           <div class="post-card-thumb" style="background:linear-gradient(135deg,#fae8eb,#f0a0ab)">🛋️</div>
           <div class="post-card-body">
-            <div class="post-card-tag" style="color:var(--pink)">Before & After</div>
-            <div class="post-card-title">From chaos to calm: my bedroom reno in 6 weekends</div>
+            <div class="post-card-tag" style="color:var(--pink)" data-en="Before & After" data-nl="Voor & Na">Voor & Na</div>
+            <div class="post-card-title" data-en="From chaos to calm: my bedroom reno in 6 weekends" data-nl="Van chaos naar rust: mijn slaapkamerrenovatie in 6 weekenden">Van chaos naar rust: mijn slaapkamerrenovatie in 6 weekenden</div>
             <div class="post-card-meta">
               <span>❤️ 217</span>
               <span>💬 52</span>
-              <span>Yesterday</span>
+              <span data-en="Yesterday" data-nl="Gisteren">Gisteren</span>
             </div>
           </div>
         </div>
         <div class="post-card">
           <div class="post-card-thumb" style="background:linear-gradient(135deg,#f5f0dc,#d4c080)">☕</div>
           <div class="post-card-body">
-            <div class="post-card-tag" style="color:#8a7030">Morning Rituals</div>
-            <div class="post-card-title">Designing a kitchen corner that makes every morning feel special</div>
+            <div class="post-card-tag" style="color:#8a7030" data-en="Morning Rituals" data-nl="Ochtendrituelen">Ochtendrituelen</div>
+            <div class="post-card-title" data-en="Designing a kitchen corner that makes every morning feel special" data-nl="Een keukenhoek ontwerpen die elke ochtend bijzonder maakt">Een keukenhoek ontwerpen die elke ochtend bijzonder maakt</div>
             <div class="post-card-meta">
               <span>❤️ 73</span>
               <span>💬 9</span>
-              <span>Yesterday</span>
+              <span data-en="Yesterday" data-nl="Gisteren">Gisteren</span>
             </div>
           </div>
         </div>
@@ -1012,8 +1025,8 @@
     <!-- Events -->
     <div class="anim-4" id="events">
       <div class="sec-header">
-        <span class="sec-title">Upcoming events</span>
-        <a href="#" class="sec-link">Full calendar →</a>
+        <span class="sec-title" data-en="Upcoming events" data-nl="Aankomende evenementen">Aankomende evenementen</span>
+        <a href="#" class="sec-link" data-en="Full calendar →" data-nl="Volledige kalender →">Volledige kalender →</a>
       </div>
       <div class="events-list">
         <div class="event-card">
@@ -1022,14 +1035,14 @@
             <div class="event-date-day">3</div>
           </div>
           <div class="event-info">
-            <div class="event-title">Virtual Styling Workshop: Warm Palettes for Spring</div>
+            <div class="event-title" data-en="Virtual Styling Workshop: Warm Palettes for Spring" data-nl="Virtuele Stylingworkshop: Warme Kleuren voor de Lente">Virtuele Stylingworkshop: Warme Kleuren voor de Lente</div>
             <div class="event-meta">
               <span>🕐 7:00 PM CEST</span>
-              <span>👥 84 going</span>
+              <span data-en="👥 84 going" data-nl="👥 84 gaan">👥 84 gaan</span>
               <span class="event-badge badge-online">Online</span>
             </div>
           </div>
-          <button class="event-rsvp going">✓ Going</button>
+          <button class="event-rsvp going" data-en="✓ Going" data-nl="✓ Aangemeld">✓ Aangemeld</button>
         </div>
         <div class="event-card">
           <div class="event-date">
@@ -1037,14 +1050,14 @@
             <div class="event-date-day">10</div>
           </div>
           <div class="event-info">
-            <div class="event-title">Amsterdam Member Meetup — Vintage Market & Coffee</div>
+            <div class="event-title" data-en="Amsterdam Member Meetup — Vintage Market & Coffee" data-nl="Amsterdam Ledenbijeenkomst — Vintage Markt & Koffie">Amsterdam Ledenbijeenkomst — Vintage Markt & Koffie</div>
             <div class="event-meta">
               <span>🕑 2:00 PM</span>
-              <span>👥 29 going</span>
-              <span class="event-badge badge-irl">In person</span>
+              <span data-en="👥 29 going" data-nl="👥 29 gaan">👥 29 gaan</span>
+              <span class="event-badge badge-irl" data-en="In person" data-nl="Fysiek">Fysiek</span>
             </div>
           </div>
-          <button class="event-rsvp">RSVP</button>
+          <button class="event-rsvp" data-en="RSVP" data-nl="Aanmelden">Aanmelden</button>
         </div>
         <div class="event-card">
           <div class="event-date">
@@ -1052,14 +1065,14 @@
             <div class="event-date-day">17</div>
           </div>
           <div class="event-info">
-            <div class="event-title">Live Q&amp;A: Ask a Professional Interior Stylist</div>
+            <div class="event-title" data-en="Live Q&amp;A: Ask a Professional Interior Stylist" data-nl="Live Q&amp;A: Stel je vraag aan een professionele interieurstyliste">Live Q&amp;A: Stel je vraag aan een professionele interieurstyliste</div>
             <div class="event-meta">
               <span>🕖 6:30 PM CEST</span>
               <span>👥 50 / 50</span>
-              <span class="event-badge badge-full">Full</span>
+              <span class="event-badge badge-full" data-en="Full" data-nl="Vol">Vol</span>
             </div>
           </div>
-          <button class="event-rsvp" style="opacity:.5;cursor:not-allowed">Full</button>
+          <button class="event-rsvp" style="opacity:.5;cursor:not-allowed" data-en="Full" data-nl="Vol">Vol</button>
         </div>
       </div>
     </div>
@@ -1078,49 +1091,49 @@
         </div>
         <div class="profile-name">Sophie Andersson</div>
         <div class="profile-handle">@sophie.cozy</div>
-        <div class="profile-tag">⭐ Senior Member</div>
+        <div class="profile-tag" data-en="⭐ Senior Member" data-nl="⭐ Senior Lid">⭐ Senior Lid</div>
         <div class="profile-stats-row">
           <div class="profile-stat">
             <div class="ps-val">47</div>
-            <div class="ps-lbl">Posts</div>
+            <div class="ps-lbl" data-en="Posts" data-nl="Berichten">Berichten</div>
           </div>
           <div class="profile-stat">
             <div class="ps-val">312</div>
-            <div class="ps-lbl">Followers</div>
+            <div class="ps-lbl" data-en="Followers" data-nl="Volgers">Volgers</div>
           </div>
           <div class="profile-stat">
             <div class="ps-val">89</div>
-            <div class="ps-lbl">Following</div>
+            <div class="ps-lbl" data-en="Following" data-nl="Volgend">Volgend</div>
           </div>
         </div>
-        <button class="btn-pink-full">Edit profile</button>
+        <button class="btn-pink-full" data-en="Edit profile" data-nl="Profiel bewerken">Profiel bewerken</button>
       </div>
     </div>
 
     <!-- Trending Topics -->
     <div class="sidebar-card">
-      <div class="sidebar-card-header">🔥 Trending Topics</div>
+      <div class="sidebar-card-header" data-en="🔥 Trending Topics" data-nl="🔥 Trending Onderwerpen">🔥 Trending Onderwerpen</div>
       <div class="sidebar-card-body">
         <div class="topics-list">
           <div class="topic-item">
             <span class="topic-tag">#autumnpalette</span>
-            <span class="topic-count">142 posts</span>
+            <span class="topic-count" data-en="142 posts" data-nl="142 berichten">142 berichten</span>
           </div>
           <div class="topic-item">
             <span class="topic-tag">#smallspaceliving</span>
-            <span class="topic-count">98 posts</span>
+            <span class="topic-count" data-en="98 posts" data-nl="98 berichten">98 berichten</span>
           </div>
           <div class="topic-item">
             <span class="topic-tag">#vintagefinds</span>
-            <span class="topic-count">87 posts</span>
+            <span class="topic-count" data-en="87 posts" data-nl="87 berichten">87 berichten</span>
           </div>
           <div class="topic-item">
             <span class="topic-tag">#sustainablehome</span>
-            <span class="topic-count">74 posts</span>
+            <span class="topic-count" data-en="74 posts" data-nl="74 berichten">74 berichten</span>
           </div>
           <div class="topic-item">
             <span class="topic-tag">#morningritual</span>
-            <span class="topic-count">61 posts</span>
+            <span class="topic-count" data-en="61 posts" data-nl="61 berichten">61 berichten</span>
           </div>
         </div>
       </div>
@@ -1128,40 +1141,40 @@
 
     <!-- Member Spotlight -->
     <div class="sidebar-card" id="members">
-      <div class="sidebar-card-header">✨ Member Spotlight</div>
+      <div class="sidebar-card-header" data-en="✨ Member Spotlight" data-nl="✨ Lid in de Spotlight">✨ Lid in de Spotlight</div>
       <div class="sidebar-card-body">
         <div class="spotlight-list">
           <div class="spotlight-member">
             <div class="spotlight-av" style="background:linear-gradient(135deg,#D96878,#f0a0ab)">LB</div>
             <div class="spotlight-info">
               <div class="spotlight-name">Léa Beaumont</div>
-              <div class="spotlight-role">Textile designer · Paris</div>
+              <div class="spotlight-role" data-en="Textile designer · Paris" data-nl="Textielontwerper · Parijs">Textielontwerper · Parijs</div>
             </div>
-            <button class="spotlight-follow following">Following</button>
+            <button class="spotlight-follow following" data-en="Following" data-nl="Volgend">Volgend</button>
           </div>
           <div class="spotlight-member">
             <div class="spotlight-av" style="background:linear-gradient(135deg,#B8A660,#d4c080)">MK</div>
             <div class="spotlight-info">
               <div class="spotlight-name">Mads Kjeldsen</div>
-              <div class="spotlight-role">Architect · Copenhagen</div>
+              <div class="spotlight-role" data-en="Architect · Copenhagen" data-nl="Architect · Kopenhagen">Architect · Kopenhagen</div>
             </div>
-            <button class="spotlight-follow">Follow</button>
+            <button class="spotlight-follow" data-en="Follow" data-nl="Volgen">Volgen</button>
           </div>
           <div class="spotlight-member">
             <div class="spotlight-av" style="background:linear-gradient(135deg,#6B4040,#9A6A5A)">YT</div>
             <div class="spotlight-info">
               <div class="spotlight-name">Yuki Tanaka</div>
-              <div class="spotlight-role">Stylist · Amsterdam</div>
+              <div class="spotlight-role" data-en="Stylist · Amsterdam" data-nl="Stiliste · Amsterdam">Stiliste · Amsterdam</div>
             </div>
-            <button class="spotlight-follow">Follow</button>
+            <button class="spotlight-follow" data-en="Follow" data-nl="Volgen">Volgen</button>
           </div>
           <div class="spotlight-member">
             <div class="spotlight-av" style="background:linear-gradient(135deg,#D96878,#B8A660)">NV</div>
             <div class="spotlight-info">
               <div class="spotlight-name">Nina Vasquez</div>
-              <div class="spotlight-role">Ceramicist · Barcelona</div>
+              <div class="spotlight-role" data-en="Ceramicist · Barcelona" data-nl="Keramiste · Barcelona">Keramiste · Barcelona</div>
             </div>
-            <button class="spotlight-follow">Follow</button>
+            <button class="spotlight-follow" data-en="Follow" data-nl="Volgen">Volgen</button>
           </div>
         </div>
       </div>
@@ -1169,34 +1182,34 @@
 
     <!-- Resources -->
     <div class="sidebar-card" id="resources">
-      <div class="sidebar-card-header">📚 Resources</div>
+      <div class="sidebar-card-header" data-en="📚 Resources" data-nl="📚 Bronnen">📚 Bronnen</div>
       <div class="sidebar-card-body">
         <a href="#" class="resource-item">
           <div class="resource-icon">🎨</div>
           <div class="resource-text">
-            <div class="resource-name">2025 Colour Forecast</div>
-            <div class="resource-type">PDF Guide · 18 pages</div>
+            <div class="resource-name" data-en="2025 Colour Forecast" data-nl="2025 Kleurprognose">2025 Kleurprognose</div>
+            <div class="resource-type" data-en="PDF Guide · 18 pages" data-nl="PDF Gids · 18 pagina's">PDF Gids · 18 pagina's</div>
           </div>
         </a>
         <a href="#" class="resource-item">
           <div class="resource-icon">🛒</div>
           <div class="resource-text">
-            <div class="resource-name">Member Discount Directory</div>
-            <div class="resource-type">Partners · Updated weekly</div>
+            <div class="resource-name" data-en="Member Discount Directory" data-nl="Kortingsoverzicht voor Leden">Kortingsoverzicht voor Leden</div>
+            <div class="resource-type" data-en="Partners · Updated weekly" data-nl="Partners · Wekelijks bijgewerkt">Partners · Wekelijks bijgewerkt</div>
           </div>
         </a>
         <a href="#" class="resource-item">
           <div class="resource-icon">📐</div>
           <div class="resource-text">
-            <div class="resource-name">Room Layout Planner</div>
-            <div class="resource-type">Interactive tool</div>
+            <div class="resource-name" data-en="Room Layout Planner" data-nl="Kamerinrichting Planner">Kamerinrichting Planner</div>
+            <div class="resource-type" data-en="Interactive tool" data-nl="Interactief hulpmiddel">Interactief hulpmiddel</div>
           </div>
         </a>
         <a href="#" class="resource-item">
           <div class="resource-icon">🎥</div>
           <div class="resource-text">
-            <div class="resource-name">Workshop Recordings</div>
-            <div class="resource-type">Video library · 34 sessions</div>
+            <div class="resource-name" data-en="Workshop Recordings" data-nl="Workshopopnames">Workshopopnames</div>
+            <div class="resource-type" data-en="Video library · 34 sessions" data-nl="Videobibliotheek · 34 sessies">Videobibliotheek · 34 sessies</div>
           </div>
         </a>
       </div>
@@ -1216,39 +1229,39 @@
         <img src="brand_assets/Cozella cirkel.png" alt="Cozella" class="footer-logo-img" />
         <span class="footer-logo-name">Cozella</span>
       </div>
-      <p class="footer-desc">A community for people who believe beautiful spaces create beautiful lives. Est. 2023.</p>
+      <p class="footer-desc" data-en="A community for people who believe beautiful spaces create beautiful lives. Est. 2023." data-nl="Een community voor mensen die geloven dat mooie ruimtes mooie levens creëren. Opgericht in 2023.">Een community voor mensen die geloven dat mooie ruimtes mooie levens creëren. Opgericht in 2023.</p>
     </div>
     <div class="footer-col">
-      <h4>Community</h4>
+      <h4 data-en="Community" data-nl="Community">Community</h4>
       <ul>
-        <li><a href="#">Feed</a></li>
-        <li><a href="#">Events</a></li>
-        <li><a href="#">Members</a></li>
-        <li><a href="#">Discussions</a></li>
+        <li><a href="#" data-en="Feed" data-nl="Feed">Feed</a></li>
+        <li><a href="#" data-en="Events" data-nl="Evenementen">Evenementen</a></li>
+        <li><a href="#" data-en="Members" data-nl="Leden">Leden</a></li>
+        <li><a href="#" data-en="Discussions" data-nl="Discussies">Discussies</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4>Resources</h4>
+      <h4 data-en="Resources" data-nl="Bronnen">Bronnen</h4>
       <ul>
-        <li><a href="#">Guides &amp; PDFs</a></li>
-        <li><a href="#">Workshop library</a></li>
-        <li><a href="#">Partner discounts</a></li>
-        <li><a href="#">Room planner</a></li>
+        <li><a href="#" data-en="Guides &amp; PDFs" data-nl="Gidsen &amp; PDF's">Gidsen &amp; PDF's</a></li>
+        <li><a href="#" data-en="Workshop library" data-nl="Workshopbibliotheek">Workshopbibliotheek</a></li>
+        <li><a href="#" data-en="Partner discounts" data-nl="Partnerkortingen">Partnerkortingen</a></li>
+        <li><a href="#" data-en="Room planner" data-nl="Kamerinrichting">Kamerinrichting</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4>Info</h4>
+      <h4 data-en="Info" data-nl="Info">Info</h4>
       <ul>
-        <li><a href="#">About Cozella</a></li>
-        <li><a href="#">Membership</a></li>
-        <li><a href="#">Privacy policy</a></li>
-        <li><a href="#">Contact us</a></li>
+        <li><a href="#" data-en="About Cozella" data-nl="Over Cozella">Over Cozella</a></li>
+        <li><a href="#" data-en="Membership" data-nl="Lidmaatschap">Lidmaatschap</a></li>
+        <li><a href="#" data-en="Privacy policy" data-nl="Privacybeleid">Privacybeleid</a></li>
+        <li><a href="#" data-en="Contact us" data-nl="Neem contact op">Neem contact op</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <span class="footer-copy">© 2026 Cozella. All rights reserved.</span>
-    <span class="footer-tagline">"Where beautiful spaces meet beautiful lives."</span>
+    <span class="footer-copy" data-en="© 2026 Cozella. All rights reserved." data-nl="© 2026 Cozella. Alle rechten voorbehouden.">© 2026 Cozella. Alle rechten voorbehouden.</span>
+    <span class="footer-tagline" data-en='"Where beautiful spaces meet beautiful lives."' data-nl='"Waar mooie ruimtes mooie levens ontmoeten."'>"Waar mooie ruimtes mooie levens ontmoeten."</span>
   </div>
 </footer>
 
@@ -1315,6 +1328,30 @@
       hamburgerBtn.setAttribute('aria-expanded', false);
     }
   });
+
+  // ── Language switcher ────────────────────────────────────────────────────
+  function setLang(lang) {
+    // Plain text elements
+    document.querySelectorAll(`[data-${lang}]`).forEach(el => {
+      el.textContent = el.dataset[lang];
+    });
+    // Elements with inner HTML (e.g. <em> tags)
+    document.querySelectorAll(`[data-${lang}-html]`).forEach(el => {
+      el.innerHTML = el.dataset[`${lang}Html`];
+    });
+    // Update toggle button states
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+    // Update <html lang="">
+    document.documentElement.lang = lang;
+    // Persist preference
+    localStorage.setItem('cozella-lang', lang);
+  }
+
+  // Apply saved or default language (NL) on load
+  const savedLang = localStorage.getItem('cozella-lang') || 'nl';
+  setLang(savedLang);
 
   // Active nav highlight on scroll
   const sections = document.querySelectorAll('[id]');
