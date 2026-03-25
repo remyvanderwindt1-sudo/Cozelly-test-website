@@ -295,7 +295,7 @@
     }
     .sec-title {
       font-family: 'Playfair Display', serif;
-      font-size: 1.25rem; font-weight: 700;
+      font-size: clamp(1.05rem, 3vw, 1.25rem); font-weight: 700;
       color: var(--brown);
     }
     .sec-link {
@@ -414,7 +414,7 @@
     .author-meta { font-size: 0.72rem; color: var(--muted-light); }
     .feed-featured-title {
       font-family: 'Playfair Display', serif;
-      font-size: 1.25rem; font-weight: 700; color: var(--brown);
+      font-size: clamp(1rem, 2.5vw, 1.25rem); font-weight: 700; color: var(--brown);
       line-height: 1.35; margin-bottom: 0.6rem;
     }
     .feed-featured-excerpt {
@@ -597,7 +597,7 @@
     .profile-stat:last-child { border-right: none; }
     .ps-val {
       font-family: 'Playfair Display', serif;
-      font-size: 1.1rem; font-weight: 700; color: var(--brown);
+      font-size: clamp(0.95rem, 2vw, 1.1rem); font-weight: 700; color: var(--brown);
     }
     .ps-lbl { font-size: 0.65rem; color: var(--muted-light); }
     .btn-pink-full {
@@ -722,6 +722,56 @@
     .anim-4 { animation: fadeUp 0.5s 0.28s ease both; }
 
     /* ══════════════════════════════════════════════════════════
+       HAMBURGER MENU
+    ══════════════════════════════════════════════════════════ */
+    .hamburger {
+      display: none;
+      flex-direction: column; justify-content: center; align-items: center;
+      gap: 5px; width: 38px; height: 38px;
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 9px; cursor: pointer; flex-shrink: 0;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .hamburger:hover { background: var(--cream-dark); border-color: var(--gold); }
+    .hamburger span {
+      display: block; width: 16px; height: 1.5px;
+      background: var(--brown); border-radius: 2px;
+      transition: transform 0.25s, opacity 0.25s;
+      transform-origin: center;
+    }
+    .nav-open .hamburger span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-open .hamburger span:nth-child(2) { opacity: 0; }
+    .nav-open .hamburger span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .mobile-drawer {
+      display: none;
+      position: absolute; top: 66px; left: 0; right: 0;
+      background: rgba(245,239,224,0.98);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      flex-direction: column; padding: 0.5rem 1rem 1rem;
+      box-shadow: 0 8px 24px rgba(61,31,31,0.10);
+    }
+    .nav-open .mobile-drawer { display: flex; }
+    .mobile-drawer a {
+      text-decoration: none;
+      display: flex; align-items: center; gap: 10px;
+      padding: 0.85rem 0.75rem; border-radius: 8px;
+      font-size: 0.95rem; font-weight: 500;
+      color: var(--brown); border-bottom: 1px solid var(--border-light);
+      transition: background 0.15s, color 0.15s;
+    }
+    .mobile-drawer a:last-child { border-bottom: none; }
+    .mobile-drawer a:hover { background: var(--cream-dark); color: var(--pink); }
+    .mobile-drawer .mob-search {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.65rem 0.85rem;
+      font-size: 0.88rem; color: var(--muted-light);
+      margin-bottom: 0.25rem; cursor: pointer;
+    }
+
+    /* ══════════════════════════════════════════════════════════
        RESPONSIVE
     ══════════════════════════════════════════════════════════ */
     @media (max-width: 1024px) {
@@ -732,10 +782,34 @@
     @media (max-width: 680px) {
       .post-grid { grid-template-columns: 1fr; }
       .topnav-tabs { display: none; }
+      .topnav-divider { display: none; }
+      .topnav-search { display: none; }
+      .hamburger { display: flex; }
+      .welcome-banner { padding: 1.5rem 1.2rem; }
       .welcome-inner { flex-direction: column; align-items: flex-start; }
       .welcome-cta-area { flex-direction: row; align-self: stretch; }
       .portal-sidebar { grid-template-columns: 1fr; }
       .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    }
+    @media (max-width: 480px) {
+      .topnav { padding: 0 1rem; }
+      .topnav-logo-name { font-size: 1rem; }
+      .topnav-icon-btn { width: 34px; height: 34px; }
+      .topnav-avatar { width: 34px; height: 34px; font-size: 0.72rem; }
+      .portal-layout { padding: 1.25rem 1rem; }
+      .welcome-banner { padding: 1.25rem 1rem; }
+      .welcome-stats { gap: 1rem; }
+      .ws-val { font-size: 1.15rem; }
+      .ws-lbl { font-size: 0.65rem; }
+      .btn-gold, .btn-outline-cream { font-size: 0.78rem; padding: 0.55rem 1rem; }
+      .post-card-thumb { height: 100px; }
+      .event-card { flex-wrap: wrap; gap: 0.75rem; }
+      .event-rsvp { width: 100%; text-align: center; margin-top: 0.25rem; }
+      .feed-featured-image { height: 180px; }
+      .feed-featured-body { padding: 1rem; }
+      .footer-inner { gap: 1.5rem; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+      .profile-stats-row { font-size: 0.75rem; }
     }
   </style>
 </head>
@@ -775,6 +849,19 @@
     <div class="topnav-icon-btn">🔔<span class="notif-dot"></span></div>
     <div class="topnav-icon-btn">💌</div>
     <div class="topnav-avatar">SA</div>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <!-- Mobile nav drawer -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="mob-search">🔍 Search the community…</div>
+    <a href="#feed">✦ Feed</a>
+    <a href="#events">📅 Events</a>
+    <a href="#members">👥 Members</a>
+    <a href="#resources">📚 Resources</a>
+    <a href="#discussions">💬 Discussions</a>
   </div>
 </nav>
 
@@ -1204,6 +1291,28 @@
   document.querySelectorAll('.feed-action').forEach(btn => {
     if (btn.textContent.includes('❤')) {
       btn.addEventListener('click', () => btn.classList.toggle('liked'));
+    }
+  });
+
+  // ── Hamburger menu ────────────────────────────────────────
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const topnav = document.querySelector('.topnav');
+  hamburgerBtn.addEventListener('click', () => {
+    const open = topnav.classList.toggle('nav-open');
+    hamburgerBtn.setAttribute('aria-expanded', open);
+  });
+  // Close drawer when a link is tapped
+  document.querySelectorAll('.mobile-drawer a').forEach(link => {
+    link.addEventListener('click', () => {
+      topnav.classList.remove('nav-open');
+      hamburgerBtn.setAttribute('aria-expanded', false);
+    });
+  });
+  // Close on outside click
+  document.addEventListener('click', e => {
+    if (!topnav.contains(e.target)) {
+      topnav.classList.remove('nav-open');
+      hamburgerBtn.setAttribute('aria-expanded', false);
     }
   });
 
